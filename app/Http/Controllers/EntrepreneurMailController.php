@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\EntrepreneurMailRequest;
+use App\Mail\EntrepreneurContact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EntrepreneurMailController extends Controller
 {
@@ -25,8 +27,10 @@ class EntrepreneurMailController extends Controller
     public function store(EntrepreneurMailRequest $request)
     {
         //
-         $validated = $request->validated();
-        return $validated;
+        $validated = $request->validated();
+        Mail::to('propelerzvizns@gmail.com')->send(new EntrepreneurContact());;
+        return [$validated, 'message'=> 'E-mail je uspesno poslat!'];
+        // return $validated;
 
     }
 
