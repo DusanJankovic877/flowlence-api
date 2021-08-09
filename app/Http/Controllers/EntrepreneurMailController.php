@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\EntrepreneurMailRequest;
 use Illuminate\Http\Request;
 
 class EntrepreneurMailController extends Controller
@@ -22,9 +22,12 @@ class EntrepreneurMailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EntrepreneurMailRequest $request)
     {
         //
+         $validated = $request->validated();
+        return $validated;
+
     }
 
     /**
