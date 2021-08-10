@@ -30,7 +30,7 @@ class EntrepreneurMailController extends Controller
         $validated = $request->validated();
         Mail::to('propelerzvizns@gmail.com')->send(new EntrepreneurContact());;
         return [$validated, 'message'=> 'E-mail je uspesno poslat!'];
-        // return $validated;
+      
 
     }
 

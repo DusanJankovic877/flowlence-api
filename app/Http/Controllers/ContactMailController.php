@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Mail\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\ContactMailRequest;
 
 class ContactMailController extends Controller
 {
@@ -22,9 +24,14 @@ class ContactMailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactMailRequest $request)
     {
         //
+ 
+        $validation =  $request->validated();
+        
+        Mail::to('propelerzvizns@gmail.com')->send(new Contact());;
+        return [$validation, 'message'=> 'E-mail je uspesno poslat!'];
     }
 
     /**
