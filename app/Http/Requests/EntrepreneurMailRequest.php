@@ -24,17 +24,19 @@ class EntrepreneurMailRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'people' => 'string|nullable',
             'checkedServices' => 'array',
-            'income' => 'string|nullable',
-            'incomeExtra' => 'string|nullable',
-            'pdv' => 'string|nullable',
-            'payment' => 'string|nullable',
-            'clients' => 'string|nullable',
-            'cashRegister' => 'string|nullable',
-            'eBanking' => 'string|nullable',
-            'comment' => 'string|nullable'
+            'people.title' => 'string|nullable',
+            'income.title' => 'string|nullable',
+            'incomeExtra.price' => 'numeric|nullable',
+            'incomeExtra.title' => 'string|nullable',
+            'pdv.title' => 'string|nullable',
+            'payment.title' => 'string|nullable',
+            'client.title' => 'string|nullable',
+            'cashRegister.title' => 'string|nullable',
+            'eBanking.title' => 'string|nullable',
+            'comment' => 'string|nullable',
+            'email' => 'required|email',
+            'totalSum'=> 'numeric'
         ];
     }
 }

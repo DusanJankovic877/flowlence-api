@@ -27,7 +27,11 @@ class EntrepreneurMailController extends Controller
     public function store(EntrepreneurMailRequest $request)
     {
         //
+        // $request->validate([
+        //     'incomeExtra' => 'numeric'
+        // ]);
         $validated = $request->validated();
+        // return $validated;
         Mail::to('propelerzvizns@gmail.com')->send(new EntrepreneurContact());;
         return [$validated, 'message'=> 'E-mail je uspesno poslat!'];
       
