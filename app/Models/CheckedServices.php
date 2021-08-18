@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class CheckedServices extends Model
 {
     use HasFactory;
-    
+    public $id;
+    public $title;
+    public $price;
     protected $fillable = [
         'title',
         'price'
     ];
+
 }
+

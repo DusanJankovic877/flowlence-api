@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\CheckedServices;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,7 +11,8 @@ use Illuminate\Queue\SerializesModels;
 class EntrepreneurContact extends Mailable
 {
     use Queueable, SerializesModels;
-
+    // public $checkedServicesArr = [];
+   
     /**
      * Create a new message instance.
      *
@@ -19,6 +21,7 @@ class EntrepreneurContact extends Mailable
     public function __construct()
     {
         //
+
     }
 
     /**
@@ -28,6 +31,10 @@ class EntrepreneurContact extends Mailable
      */
     public function build()
     {
+       
+
+        
+      
         return $this->from(request('email'))->markdown('emails.entrepreneurContact');
     }
 }

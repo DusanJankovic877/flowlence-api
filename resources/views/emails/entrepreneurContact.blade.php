@@ -1,8 +1,7 @@
 @component('mail::message')
-# Izabrane usluge:
-@foreach (request('checkedServices') as $checkedService)
-{{ $checkedService->title}}
-@endforeach
+
+
+# Izabrane usluge: @foreach (request('checkedServices') as $checkedService) {{ $checkedService['title'] .  ", " . $checkedService['price']}} &euro; @endforeach <br>
 # Broj lica za zaposlenje: {{request('people.title') . ", " . request('people.price')}} &euro;
 
 # Prihod koji se očekuje: {{request('income.title') . ", " . request('income.price')}} &euro;

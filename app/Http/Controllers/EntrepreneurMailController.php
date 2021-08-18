@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\EntrepreneurMailRequest;
 use App\Mail\EntrepreneurContact;
+use App\Models\CheckedServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -26,12 +27,7 @@ class EntrepreneurMailController extends Controller
      */
     public function store(EntrepreneurMailRequest $request)
     {
-        //
-        // $request->validate([
-        //     'incomeExtra' => 'numeric'
-        // ]);
         $validated = $request->validated();
-        // return $validated;
         Mail::to('propelerzvizns@gmail.com')->send(new EntrepreneurContact());;
         return [$validated, 'message'=> 'E-mail je uspesno poslat!'];
       
