@@ -36,7 +36,8 @@ class EntrepreneurMailRequest extends FormRequest
             'eBanking.title' => 'string|nullable',
             'comment' => 'string|nullable',
             'email' => 'required|email',
-            'totalSum'=> 'numeric'
+            'totalSum'=> 'numeric',
+            'checkedServicesSum' => 'numeric'
         ];
     }
 }

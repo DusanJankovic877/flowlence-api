@@ -1,21 +1,94 @@
 @component('mail::message')
+<table class="mail-table">
+<tr>
+<td>Naziv</td>
+<td>Opcija</td>
+<td>Cena</td>
+</tr>
+<tbody>
+<tr>
+<td>Izabrane Usluge</td>
+<td>@foreach (request('checkedServices') as $checkedService){{ $checkedService['title'] }} @endforeach</td>
+<td>{{ request('checkedServicesSum') }} &euro;</td> 
+</tr>
+<tr>
+<td>Broj lica za zaposlenje</td>
+<td>{{ request('people.title') }}</td>
+<td>{{ request('people.price') }} &euro;</td> 
+</tr>
+<tr>
+<td>Prihod koji se očekuje</td>
+<td>{{ request('income.title') }}</td>
+<td>{{ request('income.price') }} &euro;</td> 
+</tr>
+<tr>
+<td>Pausalno Oporezovanje</td>
+<td>{{ request('incomeExtra.title') }}</td>
+<td>{{ request('incomeExtra.price') }} &euro;</td> 
+</tr>
+<tr>
+<td>Pdv</td>
+<td>{{ request('pdv.title') }}</td>
+<td>{{ request('pdv.price') }} &euro;</td> 
+</tr>
+<tr>
+<td>Platni promet</td>
+<td>{{ request('payment.title') }}</td>
+<td>{{ request('payment.price') }} &euro;</td> 
+</tr>
+<tr>
+<td>Vrsta klijenta</td>
+<td>{{ request('client.title') }}</td>
+<td>{{ request('client.price') }} &euro;</td> 
+</tr>
+<tr>
+<td>Fiskalna kasa</td>
+<td>{{ request('cashRegister.title') }}</td>
+<td>{{ request('cashRegister.price') }} &euro;</td> 
+</tr>
+<tr>
+<td>Elektronsko bankarstvo</td>
+<td>{{ request('eBanking.title') }}</td>
+<td>{{ request('eBanking.price') }} &euro;</td> 
+</tr>
+<tr>
+<td>Dodatni komentar</td>
+<td>{{ request('comment') }}</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>{{ request('email') }}</td>
+</tr>
+<tr>
+<td>Ukpna cena </td>
+<td></td>
+<td class="last-td">{{ request('totalSum') }} &euro;</td>
+</tr>
+</tbody>
+</table>
 
 
-# Izabrane usluge: @foreach (request('checkedServices') as $checkedService) {{ $checkedService['title'] .  ", " . $checkedService['price']}} &euro; @endforeach <br>
-# Broj lica za zaposlenje: {{request('people.title') . ", " . request('people.price')}} &euro;
 
-# Prihod koji se očekuje: {{request('income.title') . ", " . request('income.price')}} &euro;
-# Pausalno Oporezovanje: {{request('incomeExtra.title') . ", " . request('incomeExtra.price')}} &euro;
-# Pdv: {{request('pdv.title') . ", " . request('pdv.price')}} &euro;
-# Platni promet: {{request('payment.title') . ", " . request('payment.price')}} &euro;
-# Vrsta klijenta: {{request('client.title') . ", " . request('client.price')}} &euro;
-# Fiskalna kasa: {{request('cashRegister.title') . ", " . request('cashRegister.price')}} &euro;
-# Elektronsko bankarstvo: {{request('eBanking.title') . ", " . request('eBanking.price')}} &euro;
-# Dodatni komentar: {{request('comment')}}
-# Email: {{request('email')}}
-# Ukupna cena usluga: {{request('totalSum'). ' '}} &euro;
-
-
-{{-- ### Hvala,<br>
+    {{-- ### Hvala,<br>
 ### {{ config('app.name') }} --}}
 @endcomponent
+<style>
+    .mail-table {
+    border-collapse: collapse;
+    /* border-spacing: 0; */
+    border:1px solid #000000;
+
+}
+
+.mail-table th{
+    border:1px solid #000000;
+}
+
+.mail-table td{
+    border:1px solid #000000;
+    padding: 3px 10px;
+}
+.last-td{
+    width: 70px;
+}
+</style>
