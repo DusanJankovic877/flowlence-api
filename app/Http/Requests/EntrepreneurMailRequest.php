@@ -24,6 +24,7 @@ class EntrepreneurMailRequest extends FormRequest
     public function rules()
     {
         return [
+            'entrepreneur' => 'string',
             'checkedServices' => 'array',
             'people.title' => 'string|nullable',
             'income.title' => 'string|nullable',

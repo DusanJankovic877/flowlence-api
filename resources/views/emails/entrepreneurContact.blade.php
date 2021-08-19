@@ -1,4 +1,5 @@
 @component('mail::message')
+<h1>{{request('entrepreneur')}}</h1>
 <table class="mail-table">
 <tr>
 <td>Naziv</td>
