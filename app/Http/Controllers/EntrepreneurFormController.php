@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\EntrepreneurMailRequest;
-use App\Mail\EntrepreneurContact;
-use App\Models\CheckedServices;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
-class EntrepreneurMailController extends Controller
+use App\Models\EntrepreneurForm;
+use Illuminate\Http\Request;
+
+class EntrepreneurFormController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,6 +15,8 @@ class EntrepreneurMailController extends Controller
     public function index()
     {
         //
+        $entrepreneur_form = EntrepreneurForm::all();
+        return $entrepreneur_form;
     }
 
     /**
@@ -25,22 +25,18 @@ class EntrepreneurMailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EntrepreneurMailRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
-        Mail::to('propelerzvizns@gmail.com')->send(new EntrepreneurContact());
-        return [$validated, 'message'=> 'E-mail je uspesno poslat!'];
-      
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\EntrepreneurForm  $entrepreneurForm
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(EntrepreneurForm $entrepreneurForm)
     {
         //
     }
@@ -49,10 +45,10 @@ class EntrepreneurMailController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\EntrepreneurForm  $entrepreneurForm
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, EntrepreneurForm $entrepreneurForm)
     {
         //
     }
@@ -60,10 +56,10 @@ class EntrepreneurMailController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\EntrepreneurForm  $entrepreneurForm
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(EntrepreneurForm $entrepreneurForm)
     {
         //
     }
