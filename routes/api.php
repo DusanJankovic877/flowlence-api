@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactMailController;
 use App\Http\Controllers\EntrepreneurMailController;
+use App\Http\Controllers\EntrepreneurFormController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/mail', [ ContactMailController::class, 'store']);
 Route::post('/entrepreneur-mail', [ EntrepreneurMailController::class , 'store']);
+Route::get('/get-form-data', [ EntrepreneurFormController::class , 'index']);
