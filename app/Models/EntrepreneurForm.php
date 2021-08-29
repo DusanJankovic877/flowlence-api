@@ -13,4 +13,5 @@ class EntrepreneurForm extends Model
         'title',
         'price'
     ];
+
 }

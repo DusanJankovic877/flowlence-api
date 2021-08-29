@@ -15,8 +15,19 @@ class EntrepreneurFormController extends Controller
     public function index()
     {
         //
-        $entrepreneur_form = EntrepreneurForm::all();
-        return $entrepreneur_form;
+        $services = EntrepreneurForm::where('form_id', 1)->get();
+        $people = EntrepreneurForm::where('form_id', 2)->get();
+        $incomes =  EntrepreneurForm::where('form_id', 3)->get();
+        $extra_incomes =  EntrepreneurForm::where('form_id', 4)->get();
+        $pdvs =  EntrepreneurForm::where('form_id', 5)->get();
+        $payments =  EntrepreneurForm::where('form_id', 6)->get();
+        $clients =  EntrepreneurForm::where('form_id', 7)->get();
+        $cash_registers =  EntrepreneurForm::where('form_id', 8)->get();
+        $e_bankings =  EntrepreneurForm::where('form_id', 9)->get();
+        $form_data = ['services' => $services, 'people' =>  $people, 'incomes' => $incomes, 'extraIncomes' => $extra_incomes, 'pdvs' => $pdvs, 'payments' => $payments, 'clients' => $clients, 'cashRegisters' => $cash_registers, 'eBankings' => $e_bankings];
+
+        return $form_data;
+
     }
 
     /**
