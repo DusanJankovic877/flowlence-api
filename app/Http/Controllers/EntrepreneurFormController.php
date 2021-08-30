@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EntrepreneurForm;
+use App\Models\QuestionOption;
 use Illuminate\Http\Request;
 
 class EntrepreneurFormController extends Controller
@@ -15,15 +15,15 @@ class EntrepreneurFormController extends Controller
     public function index()
     {
         //
-        $services = EntrepreneurForm::where('form_id', 1)->get();
-        $people = EntrepreneurForm::where('form_id', 2)->get();
-        $incomes =  EntrepreneurForm::where('form_id', 3)->get();
-        $extra_incomes =  EntrepreneurForm::where('form_id', 4)->get();
-        $pdvs =  EntrepreneurForm::where('form_id', 5)->get();
-        $payments =  EntrepreneurForm::where('form_id', 6)->get();
-        $clients =  EntrepreneurForm::where('form_id', 7)->get();
-        $cash_registers =  EntrepreneurForm::where('form_id', 8)->get();
-        $e_bankings =  EntrepreneurForm::where('form_id', 9)->get();
+        $services = QuestionOption::where('question_id', 1)->get();
+        $people = QuestionOption::where('question_id', 2)->get();
+        $incomes =  QuestionOption::where('question_id', 3)->get();
+        $extra_incomes =  QuestionOption::where('question_id', 4)->get();
+        $pdvs =  QuestionOption::where('question_id', 5)->get();
+        $payments =  QuestionOption::where('question_id', 6)->get();
+        $clients =  QuestionOption::where('question_id', 7)->get();
+        $cash_registers =  QuestionOption::where('question_id', 8)->get();
+        $e_bankings =  QuestionOption::where('question_id', 9)->get();
         $form_data = ['services' => $services, 'people' =>  $people, 'incomes' => $incomes, 'extraIncomes' => $extra_incomes, 'pdvs' => $pdvs, 'payments' => $payments, 'clients' => $clients, 'cashRegisters' => $cash_registers, 'eBankings' => $e_bankings];
 
         return $form_data;
@@ -47,7 +47,7 @@ class EntrepreneurFormController extends Controller
      * @param  \App\Models\EntrepreneurForm  $entrepreneurForm
      * @return \Illuminate\Http\Response
      */
-    public function show(EntrepreneurForm $entrepreneurForm)
+    public function show(QuestionOption $entrepreneurForm)
     {
         //
     }
@@ -59,7 +59,7 @@ class EntrepreneurFormController extends Controller
      * @param  \App\Models\EntrepreneurForm  $entrepreneurForm
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EntrepreneurForm $entrepreneurForm)
+    public function update(Request $request, QuestionOption $entrepreneurForm)
     {
         //
     }
@@ -70,7 +70,7 @@ class EntrepreneurFormController extends Controller
      * @param  \App\Models\EntrepreneurForm  $entrepreneurForm
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EntrepreneurForm $entrepreneurForm)
+    public function destroy(QuestionOption $entrepreneurForm)
     {
         //
     }

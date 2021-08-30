@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEntrepreneurFormsTable extends Migration
+class CreateQuestionOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateEntrepreneurFormsTable extends Migration
      */
     public function up()
     {
-        Schema::create('entrepreneur_forms', function (Blueprint $table) {
+        Schema::create('question_options', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('form_id');
-            $table->string('title');
+            $table->tinyInteger('question_id');
+            $table->string('option_text');
             $table->smallInteger('price');
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateEntrepreneurFormsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entrepreneur_forms');
+        Schema::dropIfExists('question_options');
     }
 }

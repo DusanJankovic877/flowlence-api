@@ -9,47 +9,47 @@
 <tbody>
 <tr>
 <td>Izabrane Usluge</td>
-<td>@foreach (request('checkedServices') as $checkedService){{ $checkedService['title'] }} @endforeach</td>
+<td>@foreach (request('checkedServices') as $checkedService){{ $checkedService['option_text'] }} @endforeach</td>
 <td>{{ request('checkedServicesSum') }} &euro;</td> 
 </tr>
 <tr>
 <td>Broj lica za zaposlenje</td>
-<td>{{ request('people.title') }}</td>
+<td>{{ request('people.option_text') }}</td>
 <td>{{ request('people.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Prihod koji se očekuje</td>
-<td>{{ request('income.title') }}</td>
+<td>{{ request('income.option_text') }}</td>
 <td>{{ request('income.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Pausalno Oporezovanje</td>
-<td>{{ request('incomeExtra.title') }}</td>
+<td>{{ request('incomeExtra.option_text') }}</td>
 <td>{{ request('incomeExtra.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Pdv</td>
-<td>{{ request('pdv.title') }}</td>
+<td>{{ request('pdv.option_text') }}</td>
 <td>{{ request('pdv.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Platni promet</td>
-<td>{{ request('payment.title') }}</td>
+<td>{{ request('payment.option_text') }}</td>
 <td>{{ request('payment.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Vrsta klijenta</td>
-<td>{{ request('client.title') }}</td>
+<td>{{ request('client.option_text') }}</td>
 <td>{{ request('client.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Fiskalna kasa</td>
-<td>{{ request('cashRegister.title') }}</td>
+<td>{{ request('cashRegister.option_text') }}</td>
 <td>{{ request('cashRegister.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Elektronsko bankarstvo</td>
-<td>{{ request('eBanking.title') }}</td>
+<td>{{ request('eBanking.option_text') }}</td>
 <td>{{ request('eBanking.price') }} &euro;</td> 
 </tr>
 <tr>
