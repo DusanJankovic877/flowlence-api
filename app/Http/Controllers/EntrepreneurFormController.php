@@ -12,21 +12,26 @@ class EntrepreneurFormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $services = QuestionOption::where('question_id', 1)->get();
-        $people = QuestionOption::where('question_id', 2)->get();
-        $incomes =  QuestionOption::where('question_id', 3)->get();
-        $extra_incomes =  QuestionOption::where('question_id', 4)->get();
-        $pdvs =  QuestionOption::where('question_id', 5)->get();
-        $payments =  QuestionOption::where('question_id', 6)->get();
-        $clients =  QuestionOption::where('question_id', 7)->get();
-        $cash_registers =  QuestionOption::where('question_id', 8)->get();
-        $e_bankings =  QuestionOption::where('question_id', 9)->get();
-        $form_data = ['services' => $services, 'people' =>  $people, 'incomes' => $incomes, 'extraIncomes' => $extra_incomes, 'pdvs' => $pdvs, 'payments' => $payments, 'clients' => $clients, 'cashRegisters' => $cash_registers, 'eBankings' => $e_bankings];
+        // return $request;
+        $path = $request->validate(['path' => 'string']);
+        if($path['path'] === '/price-list/entrepreneur'){
 
-        return $form_data;
+            $services = QuestionOption::where('question_id', 1)->get();
+            $people = QuestionOption::where('question_id', 2)->get();
+            $incomes =  QuestionOption::where('question_id', 3)->get();
+            $extra_incomes =  QuestionOption::where('question_id', 4)->get();
+            $pdvs =  QuestionOption::where('question_id', 5)->get();
+            $payments =  QuestionOption::where('question_id', 6)->get();
+            $clients =  QuestionOption::where('question_id', 7)->get();
+            $cash_registers =  QuestionOption::where('question_id', 8)->get();
+            $e_bankings =  QuestionOption::where('question_id', 9)->get();
+            $form_data = ['services' => $services, 'people' =>  $people, 'incomes' => $incomes, 'extraIncomes' => $extra_incomes, 'item1' => $pdvs, 'item2' => $payments, 'clients' => $clients, 'cashRegisters' => $cash_registers, 'item3' => $e_bankings];
+    
+            return $form_data;
+        }
 
     }
 

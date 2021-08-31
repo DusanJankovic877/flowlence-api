@@ -22,4 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/mail', [ ContactMailController::class, 'store']);
 Route::post('/entrepreneur-mail', [ EntrepreneurMailController::class , 'store']);
-Route::get('/get-form-data', [ EntrepreneurFormController::class , 'index']);
+Route::post('/get-form-data', [ EntrepreneurFormController::class , 'index']);
