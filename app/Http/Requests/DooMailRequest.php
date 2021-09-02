@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EntrepreneurMailRequest extends FormRequest
+class DooMailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,12 @@ class EntrepreneurMailRequest extends FormRequest
     public function rules()
     {
         return [
-            'entrepreneur' => 'string',
+            //
+            'doo' => 'string',
             'checkedServices' => 'array',
             'people.option_text' => 'string|nullable',
+            'founders.option_text' => 'string|nullable',
             'income.option_text' => 'string|nullable',
-            'incomeExtra.price' => 'numeric|nullable',
-            'incomeExtra.option_text' => 'string|nullable',
             'pdv.option_text' => 'string|nullable',
             'payment.option_text' => 'string|nullable',
             'client.option_text' => 'string|nullable',
