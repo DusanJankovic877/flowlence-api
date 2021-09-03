@@ -40,7 +40,7 @@ class DooMailController extends Controller
      * @param  \App\Models\Doo  $doo
      * @return \Illuminate\Http\Response
      */
-    public function show(Doo $doo)
+    public function show(DooMailRequest $doo)
     {
         //
     }
@@ -52,7 +52,7 @@ class DooMailController extends Controller
      * @param  \App\Models\Doo  $doo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Doo $doo)
+    public function update(Request $request, DooMailRequest $doo)
     {
         //
     }
@@ -63,7 +63,7 @@ class DooMailController extends Controller
      * @param  \App\Models\Doo  $doo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Doo $doo)
+    public function destroy(DooMailRequest $doo)
     {
         //
     }

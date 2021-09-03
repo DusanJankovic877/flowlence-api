@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QuestionOption;
+use App\Http\Requests\AssociationMailRequest;
+use App\Mail\AssociationContact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
-class QuestionOptionController extends Controller
+class AssociationMailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,18 +25,21 @@ class QuestionOptionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AssociationMailRequest $request)
     {
         //
+        $validated = $request->validated();
+        Mail::to('propelerzvizns@gmail.com')->send(new AssociationContact());
+        return [$validated, 'message'=> 'E-mail je uspesno poslat!'];
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\QuestionOptions  $questionOptions
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(QuestionOption $questionOption)
+    public function show($id)
     {
         //
     }
@@ -43,10 +48,10 @@ class QuestionOptionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\QuestionOptions  $questionOptions
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, QuestionOption $questionOption)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -54,10 +59,10 @@ class QuestionOptionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\QuestionOptions  $questionOptions
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(QuestionOption $questionOption)
+    public function destroy($id)
     {
         //
     }
