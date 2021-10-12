@@ -15,9 +15,9 @@ class CreateQuestionTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('qusetion_type')->constraint('question_types');
+            $table->foreignId('question_type_id')->constraint('question_types')->onDelete('cascade');;
             $table->string('title');
-            $table->string('quetion_text');
+            $table->string('question_text');
             $table->timestamps();
         });
     }

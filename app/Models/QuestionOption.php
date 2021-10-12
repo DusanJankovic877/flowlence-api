@@ -11,10 +11,10 @@ class QuestionOption extends Model
     protected $fillable = [
         'question_id',
         'option_text',
-        'question_id_fk',
+        'question_id',
         'price'
     ];
-    public function questionType(){
-        return $this->belongsTo(QuestionType::class);
+    public function question(){
+        return $this->belongsTo(Question::class);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
 use App\Models\QuestionOption;
+use App\Models\QuestionType;
 use Illuminate\Http\Request;
 
 class EntrepreneurFormController extends Controller
@@ -16,6 +18,11 @@ class EntrepreneurFormController extends Controller
     {
         //
         // return $request;
+        // $result = QuestionType::with(['questions'])->get();
+        $questions = Question::with(['question_options', 'question_type'])->get();
+       
+    
+        return $questions;
         $path = $request->validate(['path' => 'string']);
         if($path['path'] === '/price-list/entrepreneur'){
 

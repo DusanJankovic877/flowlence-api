@@ -11,9 +11,12 @@ class Question extends Model
     protected $fillable = [
         'title',
         'question_text',
-        'qusetion_type_fk'
+        'qusetion_type'
     ];
-    public function questionType(){
+    public function question_type(){
         return $this->belongsTo(QuestionType::class);
+    }
+    public function question_options(){
+        return $this->hasMany(QuestionOption::class);
     }
 }
