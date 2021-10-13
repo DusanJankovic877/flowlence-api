@@ -29,3 +29,4 @@ Route::post('/doo-mail', [ DooMailController::class , 'store']);
 Route::post('/association-mail', [ AssociationMailController::class , 'store']);
 Route::post('/get-form-data', [ EntrepreneurFormController::class , 'index']);
 Route::get('/association-form-data', [ AssociationFormController::class , 'index']);
+Route::get('/get-example-data', [ EntrepreneurFormController::class , 'index']);
