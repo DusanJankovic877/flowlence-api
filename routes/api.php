@@ -28,5 +28,7 @@ Route::post('/entrepreneur-mail', [ EntrepreneurMailController::class , 'store']
 Route::post('/doo-mail', [ DooMailController::class , 'store']);
 Route::post('/association-mail', [ AssociationMailController::class , 'store']);
 Route::post('/get-form-data', [ EntrepreneurFormController::class , 'index']);
+Route::post('/get-selected-data-options', [ EntrepreneurFormController::class , 'getSelecetedData']);
 Route::get('/association-form-data', [ AssociationFormController::class , 'index']);
 Route::get('/get-example-data', [ EntrepreneurFormController::class , 'index']);
+
