@@ -19,7 +19,7 @@ class EntrepreneurFormController extends Controller
         //
         // return $request;
         // $result = QuestionType::with(['questions'])->get();
-        if($request['name'] === "entrepreneur"){
+        if($request['name'] === "newEntrepreneur"){
         $form_data = [
             'services' => Question::where('id', 1)->with(['question_options', 'question_type'])->get(),
             'people' => Question::where('id', 2)->with(['question_options', 'question_type'])->get(),
@@ -32,9 +32,17 @@ class EntrepreneurFormController extends Controller
             'extra_incomes' => Question::where('id', 9)->with(['question_options', 'question_type'])->get()
         ];
             return $form_data;
-        }elseif($request['name'] === "doo"){
-            return 'doo';
-        }elseif($request['name'] === "association"){return 'association';}
+        }elseif($request['name'] === 'alredyEntrepreneur'){
+            return 'already Entreprenur';
+        }elseif($request['name'] === "newDoo"){
+            return 'new doo';
+        }elseif($request['name'] === "alreadyDoo"){
+            return 'alredy doo';
+        }elseif($request['name'] === "newAssociation"){
+            return 'new association';
+        }elseif($request['name'] === "alreadyAssowciation"){
+            return 'alredy Association';
+        }else{return 'that does not exist';}
         // return $request;
         $questions = Question::with(['question_options', 'question_type'])->get();
        
