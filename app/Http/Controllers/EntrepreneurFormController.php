@@ -17,14 +17,24 @@ class EntrepreneurFormController extends Controller
     public function index(Request $request)
     {
         //            
+ 
+
         if($request['name'] === "newEntrepreneur"){
-
-            $form_data = Question::where('title', 'new ent')->with('question_options')->get();
+            $form_data = ['data' => Question::where('title', 'new ent')->with('question_options', 'question_type')->get()];
+        // $form_data = [
+        //     'services' => Question::where('q_id', 1)->with(['question_options', 'question_type'])->get(),
+        //     'people' => Question::where('q_id', 2)->with(['question_options', 'question_type'])->get(),
+        //     'incomes' => Question::where('q_id', 3)->with(['question_options', 'question_type'])->get(),
+        //     'pdvs' => Question::where('q_id', 4)->with(['question_options', 'question_type'])->get(),
+        //     'payments' => Question::where('q_id', 5)->with(['question_options', 'question_type'])->get(),
+        //     'clients' => Question::where('q_id', 6)->with(['question_options', 'question_type'])->get(),
+        //     'cash_registers' => Question::where('q_id', 7)->with(['question_options', 'question_type'])->get(),
+        //     'e_bankings' => Question::where('q_id', 8)->with(['question_options', 'question_type'])->get(),
+        //     'extra_incomes' => Question::where('q_id', 9)->with(['question_options', 'question_type'])->get()
+        // ];
             return $form_data;
-
         }elseif($request['name'] === 'alreadyEntrepreneur'){
-
-            $form_data = Question::where('title', 'already ent')->with('question_options')->get();
+            $form_data = ['data' => Question::where('title', 'already ent')->with('question_options', 'question_type')->get()];
             return $form_data;
 
         }elseif($request['name'] === "newDoo"){
