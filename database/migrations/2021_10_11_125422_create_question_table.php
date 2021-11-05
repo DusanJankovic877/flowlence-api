@@ -14,8 +14,10 @@ class CreateQuestionTable extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->foreignId('question_type_id')->constraint('question_types')->onDelete('cascade');;
+            $table->bigIncrements('q_id');
+            $table->foreignId('question_type_id')->constraint('question_types')->onDelete('cascade');
+            $table->bigInteger('id')->index();
+            $table->string('name');
             $table->string('title');
             $table->string('question_text');
             $table->timestamps();

@@ -15,7 +15,7 @@ class CreateQuestionOptionsTable extends Migration
     {
         Schema::create('question_options', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('question_id')->constained('questions')->onDelete('cascade');;
+            $table->bigInteger('question_id')->references('id')->on('questions')->index();
             $table->string('option_text');
             $table->smallInteger('price');
             $table->timestamps();
