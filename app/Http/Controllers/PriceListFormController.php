@@ -14,8 +14,13 @@ class PriceListFormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index(Request $request)
     {
+        //treba dodati validaciju podataka
+        // return Question::where('id', '>=', 10)->get();
+        // return Question::where('title', 'new doo')->with('question_options')->get();
+        // return Question::where('title', 'already doo')->with('question_options')->get();
         if($request['name'] === "newEntrepreneur"){
             $form_data = ['data' => Question::where('title', 'new ent')->with('question_options', 'question_type')->get()];
             return $form_data;
@@ -24,9 +29,11 @@ class PriceListFormController extends Controller
             return $form_data;
 
         }elseif($request['name'] === "newDoo"){
-            return 'new doo';
+            $form_data = ['data' => Question::where('title', 'new doo')->with('question_options', 'question_type')->get()];
+            return $form_data;
         }elseif($request['name'] === "alreadyDoo"){
-            return 'alredy doo';
+            $form_data = ['data' => Question::where('title', 'already doo')->with('question_options', 'question_type')->get()];
+            return $form_data;
         }elseif($request['name'] === "newAssociation"){
             return 'new association';
         }elseif($request['name'] === "alreadyAssowciation"){
