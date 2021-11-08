@@ -18,16 +18,13 @@ class PriceListFormController extends Controller
     public function index(Request $request)
     {
         //treba dodati validaciju podataka
-        // return Question::where('id', '>=', 10)->get();
-        // return Question::where('title', 'new doo')->with('question_options')->get();
-        // return Question::where('title', 'already doo')->with('question_options')->get();
+
         if($request['name'] === "newEntrepreneur"){
             $form_data = ['data' => Question::where('title', 'new ent')->with('question_options', 'question_type')->get()];
             return $form_data;
         }elseif($request['name'] === 'alreadyEntrepreneur'){
             $form_data = ['data' => Question::where('title', 'already ent')->with('question_options', 'question_type')->get()];
             return $form_data;
-
         }elseif($request['name'] === "newDoo"){
             $form_data = ['data' => Question::where('title', 'new doo')->with('question_options', 'question_type')->get()];
             return $form_data;
@@ -35,10 +32,12 @@ class PriceListFormController extends Controller
             $form_data = ['data' => Question::where('title', 'already doo')->with('question_options', 'question_type')->get()];
             return $form_data;
         }elseif($request['name'] === "newAssociation"){
-            return 'new association';
-        }elseif($request['name'] === "alreadyAssowciation"){
-            return 'alredy Association';
-        }else{return 'that does not exist';}
+            $form_data = ['data' => Question::where('title', 'new assoc')->with('question_options', 'question_type')->get()];
+            return $form_data;
+        }elseif($request['name'] === "alreadyAssociation"){
+            $form_data = ['data' => Question::where('title', 'already assoc')->with('question_options', 'question_type')->get()];
+            return $form_data;
+        }else{return 'that does not exists';}
         // return $request;
         $questions = Question::with(['question_options', 'question_type'])->get();
        
