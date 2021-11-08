@@ -79,7 +79,7 @@ class PriceListFormController extends Controller
      * @param  \App\Models\EntrepreneurForm  $entrepreneurForm
      * @return \Illuminate\Http\Response
      */
-    public function destroy(QuestionOption $entrepreneurForm)
+    public function destroy(Request $request)
     {
         //
     }
