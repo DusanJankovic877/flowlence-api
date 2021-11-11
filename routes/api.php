@@ -4,6 +4,7 @@
 use App\Http\Controllers\ContactMailController;
 use App\Http\Controllers\EntrepreneurMailController;
 use App\Http\Controllers\PriceListFormController;
+use App\Http\Controllers\ReCaptchaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::post('/mail', [ ContactMailController::class, 'store']);
 Route::post('/entrepreneur-mail', [ EntrepreneurMailController::class , 'store']);
 //
 Route::post('/get-form-data', [ PriceListFormController::class , 'index']);
+Route::post('/recaptcha/validate', [ ReCaptchaController::class , 'index']);
 //
 
 
