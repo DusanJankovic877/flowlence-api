@@ -28,7 +28,6 @@ class EntrepreneurMailController extends Controller
     public function store(EntrepreneurMailRequest $request)
     {
         $validated = $request->validated();
-        // return $request;
         Mail::to('propelerzvizns@gmail.com')->send(new EntrepreneurContact());
         return [$validated, 'message'=> 'E-mail je uspesno poslat!'];
       
