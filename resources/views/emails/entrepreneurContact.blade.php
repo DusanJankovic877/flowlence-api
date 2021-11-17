@@ -1,5 +1,5 @@
 @component('mail::message')
-<h1>{{request('entrepreneur')}}</h1>
+<h1>{{request('typeOfFrom')}}</h1>
 <table class="mail-table">
 <tr>
 <td>Naziv</td>
@@ -9,48 +9,48 @@
 <tbody>
 <tr>
 <td>Izabrane Usluge</td>
-<td>@foreach (request('checkedServices') as $checkedService){{ $checkedService['option_text'] }} @endforeach</td>
-<td>{{ request('checkedServicesSum') }} &euro;</td> 
+<td>@foreach (request('firstQuestion') as $checkedService){{ $checkedService['option_text'] }} @endforeach</td>
+<td>{{ request('firstQSum') }} &euro;</td> 
 </tr>
 <tr>
 <td>Broj lica za zaposlenje</td>
-<td>{{ request('people.option_text') }}</td>
-<td>{{ request('people.price') }} &euro;</td> 
+<td>{{ request('secondQuestion.option_text') }}</td>
+<td>{{ request('secondQuestion.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Prihod koji se očekuje</td>
-<td>{{ request('income.option_text') }}</td>
-<td>{{ request('income.price') }} &euro;</td> 
+<td>{{ request('thirdQuestion.option_text') }}</td>
+<td>{{ request('thirdQuestion.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Pausalno Oporezovanje</td>
-<td>{{ request('incomeExtra.option_text') }}</td>
-<td>{{ request('incomeExtra.price') }} &euro;</td> 
+<td>{{ request('fourthQuestion.option_text') }}</td>
+<td>{{ request('fourthQuestion.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Pdv</td>
-<td>{{ request('pdv.option_text') }}</td>
-<td>{{ request('pdv.price') }} &euro;</td> 
+<td>{{ request('fifthQuestion.option_text') }}</td>
+<td>{{ request('fifthQuestion.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Platni promet</td>
-<td>{{ request('payment.option_text') }}</td>
-<td>{{ request('payment.price') }} &euro;</td> 
+<td>{{ request('sixthQuestion.option_text') }}</td>
+<td>{{ request('sixthQuestion.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Vrsta klijenta</td>
-<td>{{ request('client.option_text') }}</td>
-<td>{{ request('client.price') }} &euro;</td> 
+<td>{{ request('seventhQuestion.option_text') }}</td>
+<td>{{ request('seventhQuestion.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Fiskalna kasa</td>
-<td>{{ request('cashRegister.option_text') }}</td>
-<td>{{ request('cashRegister.price') }} &euro;</td> 
+<td>{{ request('eighthQuestion.option_text') }}</td>
+<td>{{ request('eighthQuestion.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Elektronsko bankarstvo</td>
-<td>{{ request('eBanking.option_text') }}</td>
-<td>{{ request('eBanking.price') }} &euro;</td> 
+<td>{{ request('ninthQuestion.option_text') }}</td>
+<td>{{ request('ninthQuestion.price') }} &euro;</td> 
 </tr>
 <tr>
 <td>Dodatni komentar</td>
@@ -63,7 +63,7 @@
 <tr>
 <td>Ukpna cena </td>
 <td></td>
-<td class="last-td">{{ request('totalSum') }} &euro;</td>
+<td class="last-td">{{ request('totalPrice') }} &euro;</td>
 </tr>
 </tbody>
 </table>

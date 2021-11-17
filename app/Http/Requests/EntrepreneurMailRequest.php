@@ -24,21 +24,21 @@ class EntrepreneurMailRequest extends FormRequest
     public function rules()
     {
         return [
-            'entrepreneur' => 'string',
-            'checkedServices' => 'array',
-            'people.option_text' => 'string|nullable',
-            'income.option_text' => 'string|nullable',
-            'incomeExtra.price' => 'numeric|nullable',
-            'incomeExtra.option_text' => 'string|nullable',
-            'pdv.option_text' => 'string|nullable',
-            'payment.option_text' => 'string|nullable',
-            'client.option_text' => 'string|nullable',
-            'cashRegister.option_text' => 'string|nullable',
-            'eBanking.option_text' => 'string|nullable',
+            'typeOfFrom' => 'string',
+            'firstQuestion' => 'array',
+            'secondQuestion.option_text' => 'string|nullable',
+            'thirdQuestion.option_text' => 'string|nullable',
+            'fourthQuestion.price' => 'numeric|nullable',
+            'fourthQuestion.option_text' => 'string|nullable',
+            'fifthQuestion.option_text' => 'string|nullable',
+            'sixthQuestion.option_text' => 'string|nullable',
+            'seventhQuestion.option_text' => 'string|nullable',
+            'eighthQuestion.option_text' => 'string|nullable',
+            'ninthQuestion.option_text' => 'string|nullable',
             'comment' => 'string|nullable',
             'email' => 'required|email',
-            'totalSum'=> 'numeric',
-            'checkedServicesSum' => 'numeric'
+            'totalPrice'=> 'numeric',
+            'firstQSum' => 'numeric'
         ];
     }
 }
