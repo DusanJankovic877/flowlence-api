@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\EntrepreneurMailRequest;
-use App\Mail\EntrepreneurContact;
-use App\Models\CheckedServices;
+use App\Http\Requests\PriceListMailRequest;
+use App\Mail\PriceListContact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-class EntrepreneurMailController extends Controller
+class PriceListMailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,11 +24,11 @@ class EntrepreneurMailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EntrepreneurMailRequest $request)
+    public function store(PriceListMailRequest $request)
     {
-        $validated = $request->validated();
-        Mail::to('propelerzvizns@gmail.com')->send(new EntrepreneurContact());
-        return [$validated, 'message'=> 'E-mail je uspesno poslat!'];
+        $request->validated();
+        Mail::to('propelerzvizns@gmail.com')->send(new PriceListContact());
+        return ['message'=> 'Forma primljena i e-mail je uspesno poslat!'];
       
 
     }

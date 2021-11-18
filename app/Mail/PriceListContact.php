@@ -2,13 +2,13 @@
 
 namespace App\Mail;
 
-use App\Models\CheckedServices;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EntrepreneurContact extends Mailable
+class PriceListContact extends Mailable
 {
     use Queueable, SerializesModels;
     // public $checkedServicesArr = [];
@@ -35,6 +35,6 @@ class EntrepreneurContact extends Mailable
 
         
       
-        return $this->from(request('email'))->markdown('emails.entrepreneurContact');
+        return $this->from(request('email'))->markdown('emails.priceListContact');
     }
 }

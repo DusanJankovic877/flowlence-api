@@ -2,7 +2,7 @@
 
 
 use App\Http\Controllers\ContactMailController;
-use App\Http\Controllers\EntrepreneurMailController;
+use App\Http\Controllers\PriceListMailController;
 use App\Http\Controllers\PriceListFormController;
 use App\Http\Controllers\ReCaptchaController;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/mail', [ ContactMailController::class, 'store']);
-Route::post('/entrepreneur-mail', [ EntrepreneurMailController::class , 'store']);
+Route::post('/entrepreneur-mail', [ PriceListMailController::class , 'store']);
 //
 Route::post('/get-form-data', [ PriceListFormController::class , 'index']);
 Route::post('/recaptcha/validate', [ ReCaptchaController::class , 'index']);
