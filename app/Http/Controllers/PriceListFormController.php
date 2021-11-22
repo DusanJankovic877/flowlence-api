@@ -16,27 +16,8 @@ class PriceListFormController extends Controller
     public function index(Request $request)
     {
         //treba dodati validaciju podataka i ispisati greske
-
-        if($request['name'] === "newEntrepreneur"){
-            $form_data = ['data' => Question::where('title', 'new ent')->with('question_options', 'question_type')->get()];
-            return $form_data;
-        }elseif($request['name'] === 'alreadyEntrepreneur'){
-            $form_data = ['data' => Question::where('title', 'already ent')->with('question_options', 'question_type')->get()];
-            return $form_data;
-        }elseif($request['name'] === "newDoo"){
-            $form_data = ['data' => Question::where('title', 'new doo')->with('question_options', 'question_type')->get()];
-            return $form_data;
-        }elseif($request['name'] === "alreadyDoo"){
-            $form_data = ['data' => Question::where('title', 'already doo')->with('question_options', 'question_type')->get()];
-            return $form_data;
-        }elseif($request['name'] === "newAssociation"){
-            $form_data = ['data' => Question::where('title', 'new assoc')->with('question_options', 'question_type')->get()];
-            return $form_data;
-        }elseif($request['name'] === "alreadyAssociation"){
-            $form_data = ['data' => Question::where('title', 'already assoc')->with('question_options', 'question_type')->get()];
-            return $form_data;
-        }else{return 'that does not exists';}
-
+        $form_data = ['data' => Question::where('title', $request['businessTypeParam'])->with('question_options', 'question_type')->get()];
+        return $form_data;
     }
 
     /**
