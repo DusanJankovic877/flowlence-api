@@ -83,6 +83,7 @@ class AuthController extends Controller
  
     public function logout(Request $request)
     {
+        // return $request;
         //valid credential
         $validator = Validator::make($request->only('token'), [
             'token' => 'required'
