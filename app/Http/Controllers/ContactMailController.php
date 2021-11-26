@@ -30,7 +30,7 @@ class ContactMailController extends Controller
         //
             $validation =  $request->validated();
             Mail::to('propelerzvizns@gmail.com')->send(new Contact());;
-            return [$validation, 'message'=> 'E-mail je uspesno poslat!'];
+            return ['message'=> 'E-mail je uspesno poslat!'];
     }
 
     /**
