@@ -29,12 +29,26 @@ Route::post('/get-form-data', [ PriceListFormController::class , 'index']);
 Route::post('/recaptcha/validate', [ ReCaptchaController::class , 'index']);
 //
 
-Route::post('login', [AuthController::class, 'authenticate']);
-Route::post('register', [AuthController::class, 'register']);
+// Route::post('login', [AuthController::class, 'authenticate']);
+// Route::post('register', [AuthController::class, 'register']);
 
-Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::get('get_user', [AuthController::class, 'get_user']);
+// Route::group(['middleware' => ['jwt.verify']], function() {
+//     Route::post('logout', [AuthController::class, 'logout']);
+//     Route::get('get_user', [AuthController::class, 'get_user']);
+// });
+Route::group([
+
+    'middleware' => 'api',
+    'namespace' => 'App\Http\Controllers',
+    'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
 });
 
 
