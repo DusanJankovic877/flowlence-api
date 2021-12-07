@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactMailController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriceListMailController;
 use App\Http\Controllers\PriceListFormController;
 use App\Http\Controllers\ReCaptchaController;
@@ -27,15 +28,9 @@ Route::post('/entrepreneur-mail', [ PriceListMailController::class , 'store']);
 //
 Route::post('/get-form-data', [ PriceListFormController::class , 'index']);
 Route::post('/recaptcha/validate', [ ReCaptchaController::class , 'index']);
+Route::post('/create-post', [ PostController::class , 'store']);
 //
 
-// Route::post('login', [AuthController::class, 'authenticate']);
-// Route::post('register', [AuthController::class, 'register']);
-
-// Route::group(['middleware' => ['jwt.verify']], function() {
-//     Route::post('logout', [AuthController::class, 'logout']);
-//     Route::get('get_user', [AuthController::class, 'get_user']);
-// });
 Route::group([
 
     'middleware' => 'api',
