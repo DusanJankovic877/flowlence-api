@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use File;
 use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+// use Tymon\JWTAuth\Contracts\Providers\Storage;
+
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -27,24 +30,16 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'postTitle' => 'required|string|max:100',
-            'images.*.belongsTo' => 'required|integer',
-            'images.*.data' => 'image64:jpeg,jpg,png|string',
-            'images.*.name' => 'string|max:255',
-            'images.*.size' => 'max:5000',
-            'sectionTitles.*.belongsTo' => 'string|max:14',
-            'sectionTitles.*.sectionTId' => 'integer',
-            'sectionTitles.*.title' => 'required|string|max:100',
-            'textareas.*.belongsTo' => 'integer',
-            'textareas.*.text' => 'required|string|max:500',
-            'textareas.*.textareaId' => 'integer',
-
-
+        // $blog = json_decode(request('blog'));
+        $this->validate($request,[
+            'image' => 'required|image|mimes:jpeg,jpg',
+            'image' => 'max:5000'
         ]);
-        // $imageData = $request->get('image');
-        // $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-        return $request;
+        $image = request()->file('image');
+        $image_name = $image->getClientOriginalName();
+        $image_name = time().'_'.$image_name;
+        $image->move(public_path('/images'), $image_name);
+     
     }
 
     /**
