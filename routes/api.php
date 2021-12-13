@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactMailController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriceListMailController;
 use App\Http\Controllers\PriceListFormController;
@@ -29,6 +30,8 @@ Route::post('/entrepreneur-mail', [ PriceListMailController::class , 'store']);
 Route::post('/get-form-data', [ PriceListFormController::class , 'index']);
 Route::post('/recaptcha/validate', [ ReCaptchaController::class , 'index']);
 Route::post('/create-post', [ PostController::class , 'store']);
+Route::get('/get-image/{filename}', [ PostController::class , 'show']);
+// Route::get('image/{filename}',PostController::class 'show');
 //
 
 Route::group([
