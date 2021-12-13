@@ -35,10 +35,21 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate(json_decode($request['blog']), [
-            'blog.postTitle' => 'required'
+        // return $request['blog'];
+    //    json_decode(request('blog'));
+       
+       request()->validate([
+            'blog.postTitle' => 'required|max:100|string',
+            'blog.sectionTitles.*.title' => 'required|string|max:100',
+            'blog.sectionTitles.*.belongsTo' => 'required|integer|max:1',
+            'blog.textareas.*.text' => 'required|string|max:500',
+            'blog.textareas.*.belongsTo' => 'required|integer|max:1',
+
         ]);
-        // $blog = json_decode($request['blog'], true);
+        // $blog->validate([
+        //     'blog.postTitle' => 'required'
+        // ]);
+        
         // return $blog;
         // $blog->validate([
         //     'postTitle' => 'required'
