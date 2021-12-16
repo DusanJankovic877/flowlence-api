@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Response;
 use App\Models\Image;
 use Illuminate\Http\Request;
 
@@ -26,6 +26,15 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         //
+        foreach ($request->file('images') as $image) {
+            // return $image->belongsTo;
+         //   return  $request->getName($image);
+         $image_name = $image->getClientOriginalName();
+         $image_name = time().'_'.$image_name;
+         $image->move(storage_path('images'), $image_name);
+           
+         return response()->json(['image_name' => $image_name, 'image_path' => 'storage/images']);
+     }
     }
 
     /**
@@ -34,9 +43,17 @@ class ImageController extends Controller
      * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function show(Image $image)
+    public function show($fileName)
     {
-        //
+
+        $path = storage_path('images/').$fileName;
+        if(!\file_exists($path)){
+            return response()->json(['message' => 'Image not found.'], 404);
+        }else{
+            $path = storage_path('images/').$fileName;
+            return Response::download($path);        
+
+        }
     }
 
     /**

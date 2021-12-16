@@ -29,8 +29,10 @@ Route::post('/entrepreneur-mail', [ PriceListMailController::class , 'store']);
 //
 Route::post('/get-form-data', [ PriceListFormController::class , 'index']);
 Route::post('/recaptcha/validate', [ ReCaptchaController::class , 'index']);
+Route::post('/save-post-image', [ ImageController::class , 'store']);
+Route::get('/get-image/{filename}', [ ImageController::class , 'show']);
+
 Route::post('/create-post', [ PostController::class , 'store']);
-Route::get('/get-image/{filename}', [ PostController::class , 'show']);
 // Route::get('image/{filename}',PostController::class 'show');
 //
 
@@ -45,7 +47,7 @@ Route::group([
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+    Route::get('me', 'AuthController@me');
 
 });
 

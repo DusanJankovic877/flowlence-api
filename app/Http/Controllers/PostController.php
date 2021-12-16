@@ -35,31 +35,31 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
-        // return $request['blog'];
+// return $request;
     //    json_decode(request('blog'));
-       
-       request()->validate([
-            'blog.postTitle' => 'required|max:100|string',
-            'blog.sectionTitles.*.title' => 'required|string|max:100',
-            'blog.sectionTitles.*.belongsTo' => 'required|integer|max:1',
-            'blog.textareas.*.text' => 'required|string|max:500',
-            'blog.textareas.*.belongsTo' => 'required|integer|max:1',
+    // $this->validate($request,[
+  
+        //         'images.file' => 'max:5000',
+            // 'postTitle' => 'required|max:100|string',
+            // 'sectionTitles.*.sectionTId' => 'required|integer|max:1',
+            // 'sectionTitles.*.title' => 'required|string|max:100',
+            // 'images.*.file' => 'required|image|mimes:jpeg,jpg',
+            // 'images.*.imageId' => 'required|integer|max:1',
+            // 'images.*.belongsTo' => 'required|integer|max:1',
+            // 'textareas.*.textareaId' => 'required|integer|max:2',
+            // 'textareas.*.text' => 'required|string|max:500',
+            // 'textareas.*.belongsTo' => 'required|integer|max:2',
 
-        ]);
-        // $blog->validate([
-        //     'blog.postTitle' => 'required'
         // ]);
-        
-        // return $blog;
-        // $blog->validate([
-        //     'postTitle' => 'required'
-        // ]);
+
 //WIRKING FILE ARRAY SAVING TO LARAVEl
-        // foreach ($request->file('images') as $image) {
-        // $image_name = $image->getClientOriginalName();
-        // $image_name = time().'_'.$image_name;
-        // $image->move(storage_path('images'), $image_name);
-    // }
+        foreach ($request->file('images') as $image) {
+           // return $image->belongsTo;
+        //   return  $request->getName($image);
+        $image_name = $image->getClientOriginalName();
+        $image_name = time().'_'.$image_name;
+        $image->move(storage_path('images'), $image_name);
+    }
 
         
         // return $request;
@@ -112,25 +112,16 @@ class PostController extends Controller
     public function show($fileName)
     {
      
-        // return 'sadasdsadasd';
+        // return $fileName;
         //
         // return $request;
         // $path = public_path('/images/1639049836_elena-putina-WuSzNJpys_4-unsplash.jpg');
         // if(!\file_exists($path)){
-            // return response()->json(['message' => 'Image not found.'], 404);
+        //     return response()->json(['message' => 'Image not found.'], 404);
         // }else{
-            // return $fileName;
-            // $path = public_path('images/').$fileName;
-            // return Response::download($path);        
-            // return \Response::download($filename);   
-            // $contents = Storage::get(storage_path('images/').'1639136995_visual-stories-micheile-SoT4-mZhyhE-unsplash.jpg');
-            // return $contents;
-            // $image = Array('image' => json_encode(base64_encode($filename)));
-            // $ads[0]->image = $image;
-            // $type = \File::mimeType($path);
-            // $response = \Response::make($file,200);
-            // $response->header('Content-Type', $type);
-            // return $filename;
+        //     $path = public_path('images/').$fileName;
+        //     return Response::download($path);        
+
         // }
     }
 

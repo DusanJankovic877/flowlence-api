@@ -17,7 +17,7 @@ class AuthController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login']]);
     }
-
+    
     /**
      * Get a JWT token via given credentials.
      *
@@ -26,14 +26,14 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
-    {   $request->validate([
-        'email' => 'required',
-        'password' => 'required'
+    {   
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required'
     ]);
-        $credentials = $request->only('email', 'password');
 
-        if ($token = $this->guard()->attempt($credentials)) {
-            return ['token' => $this->respondWithToken($token), 'user' => response()->json($this->guard()->user())];
+        if ($token = $this->guard()->attempt($request->only('email', 'password'))) {
+            return response()->json(compact('token'));
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
@@ -44,9 +44,14 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
+    public function me(Request $request)
     {
-        return response()->json($this->guard()->user());
+ 
+        $user = $request->user();
+        return response()->json([
+            'email' => $user->email,
+            'name' => $user->name,
+        ]);
     }
 
     /**
@@ -57,7 +62,6 @@ class AuthController extends Controller
     public function logout()
     {
         $this->guard()->logout();
-
         return response()->json(['message' => 'Successfully logged out']);
     }
 
