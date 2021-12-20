@@ -26,6 +26,7 @@ class PriceListMailController extends Controller
      */
     public function store(PriceListMailRequest $request)
     {
+   
         $request->validated();
         Mail::to('propelerzvizns@gmail.com')->send(new PriceListContact());
         return ['message'=> 'Forma primljena i e-mail je uspesno poslat!'];

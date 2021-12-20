@@ -2,17 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
-use File;
 use App\Models\Post;
-use Carbon\Carbon;
-use Facade\FlareClient\Stacktrace\File as StacktraceFile;
-use Faker\Provider\File as ProviderFile;
 use Illuminate\Http\Request;
-// use Tymon\JWTAuth\Contracts\Providers\Storage;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
-// use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -34,32 +25,37 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
+        $request->validate([
+            'postTitle' => 'required|max:100|string',
+        ]);
+       
         //
 // return $request;
     //    json_decode(request('blog'));
     // $this->validate($request,[
   
-        //         'images.file' => 'max:5000',
-            // 'postTitle' => 'required|max:100|string',
-            // 'sectionTitles.*.sectionTId' => 'required|integer|max:1',
-            // 'sectionTitles.*.title' => 'required|string|max:100',
-            // 'images.*.file' => 'required|image|mimes:jpeg,jpg',
-            // 'images.*.imageId' => 'required|integer|max:1',
-            // 'images.*.belongsTo' => 'required|integer|max:1',
-            // 'textareas.*.textareaId' => 'required|integer|max:2',
-            // 'textareas.*.text' => 'required|string|max:500',
-            // 'textareas.*.belongsTo' => 'required|integer|max:2',
+    //             // 'images.file' => 'max:5000',
+    //         'postTitle' => 'required|max:100|string',
+    //         'sectionTitles.*.sectionTId' => 'required|integer|max:1',
+    //         'sectionTitles.*.title' => 'required|string|max:100',
+    //         'images.*.file' => 'required|image|mimes:jpeg,jpg',
+    //         'images.*.imageId' => 'required|integer|max:1',
+    //         'images.*.belongsTo' => 'required|integer|max:1',
+    //         'textareas.*.textareaId' => 'required|integer|max:2',
+    //         'textareas.*.text' => 'required|string|max:500',
+    //         'textareas.*.belongsTo' => 'required|integer|max:2',
 
-        // ]);
+    //     ]);
 
 //WIRKING FILE ARRAY SAVING TO LARAVEl
-        foreach ($request->file('images') as $image) {
+        // foreach ($request->file('images') as $image) {
            // return $image->belongsTo;
         //   return  $request->getName($image);
-        $image_name = $image->getClientOriginalName();
-        $image_name = time().'_'.$image_name;
-        $image->move(storage_path('images'), $image_name);
-    }
+        // $image_name = $image->getClientOriginalName();
+        // $image_name = time().'_'.$image_name;
+        // $image->move(storage_path('images'), $image_name);
+    // }
 
         
         // return $request;
