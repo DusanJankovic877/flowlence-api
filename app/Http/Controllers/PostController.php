@@ -26,8 +26,26 @@ class PostController extends Controller
     public function store(Request $request)
     {
         // return $request;
-        $request->validate([
-            'postTitle' => 'required|max:100|string',
+        $this->validate($request,[
+            'postTitle' => 'required|max:100|string|min:10',
+            'sectionTitles.*.sectionTId' => 'required|integer|max:1',
+            'sectionTitles.*.title' => 'required|string|max:100|min:10',
+            'textareas.*.textareaId' => 'required|integer|max:2',
+            'textareas.*.text' => 'required|string|max:500|min:100',
+            'textareas.*.belongsTo' => 'required|integer|max:2',
+            'images.*.name' => 'required|string|max:100',
+            'images.*.imageId' => 'required|integer|max:1',
+            'images.*.belongsTo' => 'required|integer|max:1',
+        ],[
+            'postTitle.max' => 'Maksimalno 100 karaktera',
+            'textareas.max' => 'Maksimalno 500 karaktera',
+            'textareas.min' => 'Minimalno 100 karaktera',
+            'min' => 'Minimalno 10 karaktera',
+            'integer' => 'Mora biti okrugao broj',
+            'string' => 'Mora biti u vidu slova',
+            'required' => 'Obavezno polje',
+            // 'textareas.*.belongsTo.required' => 'Obavezno polje',
+            // 'images.*.belongsTo.required' => 'Obavezno polje',
         ]);
        
         //

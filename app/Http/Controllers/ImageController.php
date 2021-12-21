@@ -27,22 +27,14 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // return $request->file('images');
-        // $rules = [
-        //     'images' => 'mimes:jpeg,png,bmp,tiff |max:4096'
-        // ];
-        // $this->validate($request,$rules);
+        // return $request;
+        
         $this->validate($request,[
-            'images.*' => 'required|image|mimes:jpg,jpeg,png,bmp|max:20000',
-          
+            'images.*' => 'required|image|mimes:jpg,jpeg,png|max:20000',
+        ],[
+            'image' => 'Mora biti slika',
+            'mimes' => 'Mora biti formata: jpg, jpeg, png'
         ]);
-        // $input_data = $request->all();
-        // $validator = Validator::make(
-        //     $input_data, [
-        //         'image_file.*' => 'required|mimes:jpg,jpeg,png,bmp|max:20000'
-        //     ]
-        // );
         $images = array();
         foreach ($request->file('images') as $image) {
          $image_name = $image->getClientOriginalName();
@@ -54,9 +46,7 @@ class ImageController extends Controller
         if(!\file_exists($path)){
             return response()->json(['message' => 'Image not found.'], 404);
         }else{
-           //  $path = storage_path('images/').$image_name;
             return response()->json(['images' => $images]);   
-
         } 
     }
 
