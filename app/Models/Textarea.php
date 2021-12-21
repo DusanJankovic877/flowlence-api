@@ -9,10 +9,11 @@ class Textarea extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'text'
+        'text',
+        'section_title_id'
     ];
-     public function sectionTitle(){
-         $this->belongsTo(SectionTitle::class);
+     public function section_title(){
+       return $this->belongsTo(SectionTitle::class);
      }
 
 }

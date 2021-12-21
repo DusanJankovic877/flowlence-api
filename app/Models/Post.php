@@ -11,7 +11,7 @@ class Post extends Model
     protected $fillable = [
         'post_title'
     ];
-    public function sectionTitles(){
-        $this->hasMany(SectionTitle::class);
+    public function section_titles(){
+       return $this->hasMany(SectionTitle::class);
     }
 }

@@ -9,9 +9,17 @@ class SectionTitle extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'title'
+        'title',
+        'post_id'
     ];
     public function post(){
-        $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class);
     }
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
+    public function textareas(){
+        return $this->hasMany(Textarea::class);
+    }
+
 }

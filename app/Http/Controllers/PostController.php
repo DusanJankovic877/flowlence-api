@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Post;
+use App\Models\SectionTitle;
+use App\Models\Textarea;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,6 +18,11 @@ class PostController extends Controller
     public function index()
     {
         //
+        $post = Post::findOrFail(1);
+        // return $post['id'];
+        $section_title = SectionTitle::where('post_id', $post['id'])->with('images', 'textareas')->get();
+        return ['post' => $post,'section_titles' => $section_title];
+
     }
 
     /**
@@ -26,16 +34,16 @@ class PostController extends Controller
     public function store(Request $request)
     {
         // return $request;
-        $this->validate($request,[
+        $validated = $this->validate($request,[
             'postTitle' => 'required|max:100|string|min:10',
-            'sectionTitles.*.sectionTId' => 'required|integer|max:1',
+            'sectionTitles.*.sectionTId' => 'required|integer|max:2',
             'sectionTitles.*.title' => 'required|string|max:100|min:10',
             'textareas.*.textareaId' => 'required|integer|max:2',
             'textareas.*.text' => 'required|string|max:500|min:100',
             'textareas.*.belongsTo' => 'required|integer|max:2',
             'images.*.name' => 'required|string|max:100',
-            'images.*.imageId' => 'required|integer|max:1',
-            'images.*.belongsTo' => 'required|integer|max:1',
+            'images.*.imageId' => 'required|integer|max:2',
+            'images.*.belongsTo' => 'required|integer|max:2',
         ],[
             'postTitle.max' => 'Maksimalno 100 karaktera',
             'textareas.max' => 'Maksimalno 500 karaktera',
@@ -44,12 +52,43 @@ class PostController extends Controller
             'integer' => 'Mora biti okrugao broj',
             'string' => 'Mora biti u vidu slova',
             'required' => 'Obavezno polje',
-            // 'textareas.*.belongsTo.required' => 'Obavezno polje',
-            // 'images.*.belongsTo.required' => 'Obavezno polje',
         ]);
        
         //
-// return $request;
+        $post_title = Post::create([
+            'post_title' => $validated['postTitle'],
+        ]);
+        $post_title->save();
+        foreach($validated['sectionTitles'] as $section_title){
+       
+            $to_save_section_title = SectionTitle::create([
+                'title' => $section_title['title'],
+                'post_id' => $post_title->id
+            ]);
+            $to_save_section_title->save();
+            foreach($validated['images'] as $image){
+            
+                if($section_title['sectionTId'] === $image['belongsTo']){
+                    Image::create([
+                        'name' => $image['name'],
+                        'path' => '/images',
+                        'section_title_id' => $to_save_section_title->id
+                    ])->save(); 
+                }
+                
+            }
+            foreach($validated['textareas'] as $textarea){
+                if($section_title['sectionTId'] === $textarea['belongsTo']){
+    
+                    Textarea::create([
+                        'text' => $textarea['text'],
+                        'section_title_id' => $to_save_section_title->id
+                    ])->save();
+                }
+            }
+        }
+        
+return response()->json(['message' => 'Uspešno sačuvan blog post'], 200);
     //    json_decode(request('blog'));
     // $this->validate($request,[
   
