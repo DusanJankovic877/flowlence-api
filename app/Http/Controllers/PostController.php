@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\SectionTitle;
 use App\Models\Textarea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class PostController extends Controller
 {
@@ -18,10 +19,34 @@ class PostController extends Controller
     public function index()
     {
         //
-        $post = Post::findOrFail(1);
+        $posts = Post::all();
+        // $section_titles = [];
+        $sorted_posts= [];
+        foreach($posts as $post){
+            // $section_titles = SectionTitle::where('post_id', $post['id'])->with('images', 'textareas')->get();
+            
+            $section_titles = SectionTitle::with('images')->where('post_id', $post['id'])->first();
+            $sorted_posts[] = ['post_title' => $post, 'section_titles' => $section_titles];
+            // return $section_titles;
+        }
+        return response()->json($sorted_posts);
+        // return ['posts' => $posts, 'section_titles' => $section_titles];
         // return $post['id'];
-        $section_title = SectionTitle::where('post_id', $post['id'])->with('images', 'textareas')->get();
-        return ['post' => $post,'section_titles' => $section_title];
+        // $section_titles = SectionTitle::where('post_id', $post['id'])->with('images', 'textareas')->get();
+        // foreach($section_titles as $section_title){
+        //     foreach($section_title['images'] as $image){
+        //         $path = storage_path($image['path']).$image['name'];
+        //         if(!\file_exists($path)){
+        //             return false;
+        //         }else{
+        //             $path = storage_path($image['path']).$image['name'];
+        //             $image =  Response::download($path);
+        //             // return $imagee;
+        //         }
+        //     }
+        // }
+        // return ['posts' => $post,'section_titles' => $section_titles];
+        // return $post;
 
     }
 
@@ -36,14 +61,14 @@ class PostController extends Controller
         // return $request;
         $validated = $this->validate($request,[
             'postTitle' => 'required|max:100|string|min:10',
-            'sectionTitles.*.sectionTId' => 'required|integer|max:2',
+            'sectionTitles.*.sectionTId' => 'required|integer|max:10',
             'sectionTitles.*.title' => 'required|string|max:100|min:10',
-            'textareas.*.textareaId' => 'required|integer|max:2',
-            'textareas.*.text' => 'required|string|max:500|min:100',
-            'textareas.*.belongsTo' => 'required|integer|max:2',
+            'textareas.*.textareaId' => 'required|integer|max:40',
+            'textareas.*.text' => 'required|string|max:1000|min:10',
+            'textareas.*.belongsTo' => 'required|integer|max:40',
             'images.*.name' => 'required|string|max:100',
-            'images.*.imageId' => 'required|integer|max:2',
-            'images.*.belongsTo' => 'required|integer|max:2',
+            'images.*.imageId' => 'required|integer|max:10',
+            'images.*.belongsTo' => 'required|integer|max:10',
         ],[
             'postTitle.max' => 'Maksimalno 100 karaktera',
             'textareas.max' => 'Maksimalno 500 karaktera',
@@ -71,7 +96,7 @@ class PostController extends Controller
                 if($section_title['sectionTId'] === $image['belongsTo']){
                     Image::create([
                         'name' => $image['name'],
-                        'path' => '/images',
+                        'path' => 'images/',
                         'section_title_id' => $to_save_section_title->id
                     ])->save(); 
                 }

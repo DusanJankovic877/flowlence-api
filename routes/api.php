@@ -31,7 +31,7 @@ Route::post('/get-form-data', [ PriceListFormController::class , 'index']);
 Route::post('/recaptcha/validate', [ ReCaptchaController::class , 'index']);
 Route::post('/save-post-image', [ ImageController::class , 'store']);
 Route::get('/get-image/{filename}', [ ImageController::class , 'show']);
-Route::get('/get-post', [ PostController::class , 'index']);
+Route::get('/get-posts', [ PostController::class , 'index']);
 
 Route::post('/create-post', [ PostController::class , 'store']);
 // Route::get('image/{filename}',PostController::class 'show');
