@@ -106,6 +106,27 @@ class PostController extends Controller
         $section_titles = SectionTitle::where('post_id', $post_title['id'])->with('images','textareas')->get();
         return response()->json(['post_title' => $post_title, 'section_titles' => $section_titles]);
     }
+    public function edit($id)
+    {
+        $post_title = Post::findOrFail($id);
+        $section_titles = SectionTitle::where('post_id', $post_title['id'])->with('images','textareas')->get();
+        $images = [];
+        foreach($section_titles as $section_title){
+            $image = Image::where('section_title_id',  $section_title['id'])->get();
+            $images[] = app('App\Http\Controllers\PrintReportController')->show($image['name']);;
+            // app('App\Http\Controllers\PrintReportController')->show($image['name']);
+            // return $image['name'];
+            // $path = storage_path($image['path']).$image['name'];
+          
+            // return $path;
+            // $real_image = Response::download($path);
+            // $images[] = $real_image;
+        }
+        foreach($images as $image){
+            return $image['name'];
+        }
+        // return $images;
+    }
 
     /**
      * Update the specified resource in storage.

@@ -63,10 +63,18 @@ class ImageController extends Controller
         if(!\file_exists($path)){
             return response()->json(['message' => 'Image not found.'], 404);
         }else{
-            $path = storage_path('images/').$fileName;
-            return Response::download($path);        
+            $headers = array(
+                "Content-Disposition: attachment; filename=\"" . basename($path) . "\"",
+                "Content-Type: application/force-download",
+                "Content-Length: " . filesize($path),
+                "Connection: close"
+            );
+            return response()->download($path, $fileName, $headers);        
 
         }
+    }
+    public function edit(){
+        return request();
     }
 
     /**
