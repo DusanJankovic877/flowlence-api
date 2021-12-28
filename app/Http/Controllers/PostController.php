@@ -8,6 +8,7 @@ use App\Models\SectionTitle;
 use App\Models\Textarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -104,7 +105,7 @@ class PostController extends Controller
     {
         $post_title = Post::findOrFail($id);
         $section_titles = SectionTitle::where('post_id', $post_title['id'])->with('images','textareas')->get();
-        return response()->json(['post_title' => $post_title, 'section_titles' => $section_titles]);
+        return response()->json(['post_title' => $post_title['post_title'], 'section_titles' => $section_titles]);
     }
     public function edit($id)
     {
@@ -138,6 +139,22 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
+        // return $request['images_to_edit'];
+        
+        foreach($request['images_to_edit'] as $image_to_edit){
+            $image_to_replace = Image::findOrFail($image_to_edit['imageToReplaceId']);
+            $path = storage_path('images/').$image_to_replace['name'];
+            if(file_exists($path) && $image_to_replace){
+                unlink($path);
+                $image_to_replace->name = $image_to_edit['imageName'];
+                $image_to_replace->save();
+                return 'image deleted and updated';
+            }else if(file_exists($path)){
+                //save image to db but i need section title id
+                return 'file dont exits';
+            }
+        //     // return $image_to_replace['name'];
+        }
     }
 
     /**

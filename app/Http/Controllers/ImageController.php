@@ -73,9 +73,7 @@ class ImageController extends Controller
 
         }
     }
-    public function edit(){
-        return request();
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -84,9 +82,28 @@ class ImageController extends Controller
      * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Image $image)
+    public function update(Request $request)
     {
         //
+        $this->validate($request,[
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:20000',
+        ],[
+            'image' => 'Mora biti slika',
+            'mimes' => 'Mora biti formata: jpg, jpeg, png'
+        ]);
+        $images = array();
+        foreach ($request->file('images') as $image) {
+         $image_name = $image->getClientOriginalName();
+         $image_name = time().'_'.$image_name;
+         $image->move(storage_path('images'), $image_name);
+         $path = storage_path('images/').$image_name;
+         $images[] = $image_name;
+        }
+        if(!\file_exists($path)){
+            return response()->json(['message' => 'Image not found.'], 404);
+        }else{
+            return response()->json(['images' => $images]);   
+        } 
     }
 
     /**
