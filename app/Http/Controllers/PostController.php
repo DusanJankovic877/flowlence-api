@@ -161,42 +161,63 @@ class PostController extends Controller
         
         $post = Post::findOrFail($post_r['id']);
         $section_titles_r = $request['post']['section_titles'];
-        // return $section_titles_r;
-        // return ['post' => $post_r['post_title'] === $post->post_title];
             if($post->post_title !== $post_r['post_title']){
                 $post->post_title = $post_r['post_title'];
                 $post->save();
-                $s_titles = [];
                 foreach($section_titles_r as $section_title_r){
                     $section_title = SectionTitle::findOrFail($section_title_r['id']);
                     if($section_title['title'] !== $section_title_r['title']){
                         $section_title->title = $section_title_r['title'];
                         $section_title->save();
-                        $s_titles[] =$section_title;
+
+                        foreach($section_title_r['textareas'] as $textarea_r){
+                            $textarea = Textarea::findOrFail($textarea_r['id']);
+                            if($textarea_r['text'] !== $textarea['text']){
+                                $textarea['text'] = $textarea_r['text'];
+                            }
+                        }
+                       
                     }else {
-                        //textarea
+                        foreach($section_titles_r as $section_title_r){
+                            foreach($section_title_r['textareas'] as $textarea_r){
+                                $textarea = Textarea::findOrFail($textarea_r['id']);
+                                if($textarea_r['text'] !== $textarea['text']){
+                                    $textarea['text'] = $textarea_r['text'];
+                                }
+                            }
+                        }
                     }
                 }
-                return['stitle' => $s_titles];
             }else{
                 foreach($section_titles_r as $section_title_r){
                    $section_title = SectionTitle::findOrFail($section_title_r['id']);
                    if($section_title['title'] !== $section_title_r['title']){
                        $section_title->title = $section_title_r['title'];
                        $section_title->save();
-                       $s_titles[] =$section_title;
+
+                       foreach($section_titles_r as $section_title_r){
+                        foreach($section_title_r['textareas'] as $textarea_r){
+                            $textarea = Textarea::findOrFail($textarea_r['id']);
+                            if($textarea_r['text'] !== $textarea['text']){
+                                $textarea['text'] = $textarea_r['text'];
+                            }
+                        }
+                    }
                    }else {
-                       //textarea
+                        foreach($section_titles_r as $section_title_r){
+                            foreach($section_title_r['textareas'] as $textarea_r){
+                                $textarea = Textarea::findOrFail($textarea_r['id']);
+                                if($textarea_r['text'] !== $textarea['text']){
+                                    $textarea['text'] = $textarea_r['text'];
+                                    $textarea-> save();
+                                }
+                            }
+                        }
                    }
                 }
-                return['stitle' => $s_titles];
 
             }
-       
-        
-
-        
-
+            return response()->json(['message' => "successfully updated post and its items"]);
     }
 
     /**
