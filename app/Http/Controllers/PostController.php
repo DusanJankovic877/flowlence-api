@@ -105,7 +105,7 @@ class PostController extends Controller
     {
         $post_title = Post::findOrFail($id);
         $section_titles = SectionTitle::where('post_id', $post_title['id'])->with('images','textareas')->get();
-        return response()->json(['post_title' => $post_title['post_title'], 'section_titles' => $section_titles]);
+        return response()->json([$post_title, 'section_titles' => $section_titles]);
     }
     public function edit($id)
     {
@@ -136,25 +136,67 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request)
     {
         //
-        // return $request['images_to_edit'];
+        
         
         foreach($request['images_to_edit'] as $image_to_edit){
-            $image_to_replace = Image::findOrFail($image_to_edit['imageToReplaceId']);
-            $path = storage_path('images/').$image_to_replace['name'];
-            if(file_exists($path) && $image_to_replace){
+            $image_to_replace = $image_to_edit['imageToReplaceId'] ? Image::findOrFail($image_to_edit['imageToReplaceId']) : null;
+            $path = $image_to_replace ? storage_path('images/').$image_to_replace['name'] : null;
+            if($image_to_edit['imageToReplaceId'] === null && count($request['images_to_edit']) !== 0){
+                Image::create([
+                    'name' => $image_to_edit['imageName'],
+                    'path' => 'images/',
+                    'section_title_id' => $image_to_edit['sectionTitleId']
+                ]);
+                // return response()->json(['saved' => $image_to_save]);
+            }else if(file_exists($path) && $image_to_edit['imageToReplaceId']){
                 unlink($path);
                 $image_to_replace->name = $image_to_edit['imageName'];
                 $image_to_replace->save();
-                return 'image deleted and updated';
-            }else if(file_exists($path)){
-                //save image to db but i need section title id
-                return 'file dont exits';
             }
-        //     // return $image_to_replace['name'];
         }
+        $post_r =  $request['post'][0];
+        
+        $post = Post::findOrFail($post_r['id']);
+        $section_titles_r = $request['post']['section_titles'];
+        // return $section_titles_r;
+        // return ['post' => $post_r['post_title'] === $post->post_title];
+            if($post->post_title !== $post_r['post_title']){
+                $post->post_title = $post_r['post_title'];
+                $post->save();
+                $s_titles = [];
+                foreach($section_titles_r as $section_title_r){
+                    $section_title = SectionTitle::findOrFail($section_title_r['id']);
+                    if($section_title['title'] !== $section_title_r['title']){
+                        $section_title->title = $section_title_r['title'];
+                        $section_title->save();
+                        $s_titles[] =$section_title;
+                    }else {
+                        //textarea
+                    }
+                }
+                return['stitle' => $s_titles];
+            }else{
+                foreach($section_titles_r as $section_title_r){
+                   $section_title = SectionTitle::findOrFail($section_title_r['id']);
+                   if($section_title['title'] !== $section_title_r['title']){
+                       $section_title->title = $section_title_r['title'];
+                       $section_title->save();
+                       $s_titles[] =$section_title;
+                   }else {
+                       //textarea
+                   }
+                }
+                return['stitle' => $s_titles];
+
+            }
+       
+        
+
+        
+
     }
 
     /**
