@@ -217,7 +217,7 @@ class PostController extends Controller
                 }
 
             }
-            return response()->json(['message' => "successfully updated post and its items"]);
+            return response()->json(['message' => "Uspešno sačuvane promene"]);
     }
 
     /**
@@ -226,8 +226,35 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
         //
+        $post = Post::findOrFail($id);
+        $section_titles = SectionTitle::where('post_id', $id)->get();
+        // $images = [];
+        
+        foreach($section_titles as $section_title){
+            foreach($section_title->images as $image){
+                $path = storage_path('images/').$image->name;
+                // $images[] = $image->name;
+                if(file_exists($path)){
+                    unlink($path);
+                }
+                $image_to_delete = Image::findOrFail($image->id);
+                $image_to_delete->delete();
+            }
+            foreach($section_title->textareas as $textarea){
+                $textarea_to_delete = Textarea::findOrFail($textarea->id);
+                $textarea_to_delete->delete();
+            }
+            $section_title->delete();
+        }
+        $post->delete();
+    // }else if(file_exists($path) && $image_to_edit['imageToReplaceId']){
+    //     unlink($path);
+    //     $image_to_replace->name = $image_to_edit['imageName'];
+    //     $image_to_replace->save();
+    // }
+        return response()->json(['message' => 'Usepšno ste obrisali post']);
     }
 }

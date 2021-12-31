@@ -33,6 +33,7 @@ Route::post('/save-post-image', [ ImageController::class , 'store']);
 Route::get('/get-image/{filename}', [ ImageController::class , 'show']);
 Route::post('/save-edited-images', [ ImageController::class , 'update']);
 Route::post('/save-edited-post', [ PostController::class , 'update']);
+Route::get('/delete-post/{id}', [ PostController::class , 'destroy']);
 Route::get('/get-posts', [ PostController::class , 'index']);
 Route::get('/get-posts/{id}', [ PostController::class , 'show']);
 Route::get('/edit-posts/{id}', [ PostController::class , 'edit']);
