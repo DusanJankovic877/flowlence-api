@@ -109,12 +109,30 @@ class PostController extends Controller
     }
     public function edit($id)
     {
+        
+        //response da bude posebno post title, posebno sekcije, posebno slike i posebno textarea-e
         $post_title = Post::findOrFail($id);
-        $section_titles = SectionTitle::where('post_id', $post_title['id'])->with('images','textareas')->get();
+        $section_titles = SectionTitle::where('post_id', $post_title['id'])->get();
         $images = [];
+        $count = 0;
+        $textareas = [];
         foreach($section_titles as $section_title){
-            $image = Image::where('section_title_id',  $section_title['id'])->get();
-            $images[] = app('App\Http\Controllers\PrintReportController')->show($image['name']);;
+            $image = Image::where('section_title_id',  $section_title['id'])->first();
+            // $images[] = $image;
+            // return $image;
+            if($image !== null){
+                $count = $count++;
+                $images[] = [
+                    'formId' => $count,
+                    'id' => $image->id,
+                    'name' => $image->name,
+                    'section_title_id' => $image->section_title_id,
+                ];
+           
+            }
+        
+            $textarea = Textarea::where('section_title_id',  $section_title['id'])->get();
+            $textareas = $textarea;
             // app('App\Http\Controllers\PrintReportController')->show($image['name']);
             // return $image['name'];
             // $path = storage_path($image['path']).$image['name'];
@@ -123,10 +141,14 @@ class PostController extends Controller
             // $real_image = Response::download($path);
             // $images[] = $real_image;
         }
-        foreach($images as $image){
-            return $image['name'];
-        }
-        // return $images;
+  
+        // foreach($images as $image){
+        //     return $image->name;
+        //     $path = storage_path($image['path']).$image['name'];
+        //     $real_image = Response::download($path);
+        //     $images[] = $real_image;
+        // }
+        return ['post_title' => $post_title, 'section_titles' => $section_titles, 'images' => $images, 'textareas' => $textareas];
     }
 
     /**
