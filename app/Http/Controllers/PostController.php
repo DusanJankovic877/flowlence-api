@@ -110,18 +110,29 @@ class PostController extends Controller
     public function edit($id)
     {
         
-        //response da bude posebno post title, posebno sekcije, posebno slike i posebno textarea-e
+        //dodati da section title ima form id
         $post_title = Post::findOrFail($id);
         $section_titles = SectionTitle::where('post_id', $post_title['id'])->get();
+        $s_titles = [];
         $images = [];
         $count = 0;
+        $t_count = 0;
         $textareas = [];
         foreach($section_titles as $section_title){
+            $count++;
+            if($section_title !== null){
+
+                $s_titles[] = [
+                    'formId' => $count,
+                    'id' => $section_title->id,
+                    'title' => $section_title->title,
+                    'post_id' => $section_title->post_id
+                ];
+            }
             $image = Image::where('section_title_id',  $section_title['id'])->first();
             // $images[] = $image;
             // return $image;
             if($image !== null){
-                $count = $count++;
                 $images[] = [
                     'formId' => $count,
                     'id' => $image->id,
@@ -132,7 +143,17 @@ class PostController extends Controller
             }
         
             $textarea = Textarea::where('section_title_id',  $section_title['id'])->get();
-            $textareas = $textarea;
+            foreach($textarea as $textarea_item){
+                // return $textarea_item->text;
+                $t_count++;
+                $textareas[] = 
+                [
+                    'formId' => $t_count,
+                    'id' => $textarea_item->id,
+                    'text' => $textarea_item->text,
+                    'section_title_id' => $textarea_item->section_title_id
+                ];
+            }
             // app('App\Http\Controllers\PrintReportController')->show($image['name']);
             // return $image['name'];
             // $path = storage_path($image['path']).$image['name'];
@@ -148,7 +169,7 @@ class PostController extends Controller
         //     $real_image = Response::download($path);
         //     $images[] = $real_image;
         // }
-        return ['post_title' => $post_title, 'section_titles' => $section_titles, 'images' => $images, 'textareas' => $textareas];
+        return ['post_title' => $post_title, 'section_titles' => $s_titles, 'images' => $images, 'textareas' => $textareas];
     }
 
     /**
