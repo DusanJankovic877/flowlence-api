@@ -109,8 +109,6 @@ class PostController extends Controller
     }
     public function edit($id)
     {
-        
-        //dodati da section title ima form id
         $post_title = Post::findOrFail($id);
         $section_titles = SectionTitle::where('post_id', $post_title['id'])->get();
         $s_titles = [];
@@ -121,7 +119,6 @@ class PostController extends Controller
         foreach($section_titles as $section_title){
             $count++;
             if($section_title !== null){
-
                 $s_titles[] = [
                     'formId' => $count,
                     'id' => $section_title->id,
@@ -130,8 +127,6 @@ class PostController extends Controller
                 ];
             }
             $image = Image::where('section_title_id',  $section_title['id'])->first();
-            // $images[] = $image;
-            // return $image;
             if($image !== null){
                 $images[] = [
                     'formId' => $count,
@@ -139,12 +134,9 @@ class PostController extends Controller
                     'name' => $image->name,
                     'section_title_id' => $image->section_title_id,
                 ];
-           
             }
-        
             $textarea = Textarea::where('section_title_id',  $section_title['id'])->get();
             foreach($textarea as $textarea_item){
-                // return $textarea_item->text;
                 $t_count++;
                 $textareas[] = 
                 [
@@ -154,6 +146,8 @@ class PostController extends Controller
                     'section_title_id' => $textarea_item->section_title_id
                 ];
             }
+        }
+        return ['post_title' => $post_title, 'section_titles' => $s_titles, 'images' => $images, 'textareas' => $textareas];
             // app('App\Http\Controllers\PrintReportController')->show($image['name']);
             // return $image['name'];
             // $path = storage_path($image['path']).$image['name'];
@@ -161,7 +155,6 @@ class PostController extends Controller
             // return $path;
             // $real_image = Response::download($path);
             // $images[] = $real_image;
-        }
   
         // foreach($images as $image){
         //     return $image->name;
@@ -169,7 +162,6 @@ class PostController extends Controller
         //     $real_image = Response::download($path);
         //     $images[] = $real_image;
         // }
-        return ['post_title' => $post_title, 'section_titles' => $s_titles, 'images' => $images, 'textareas' => $textareas];
     }
 
     /**
