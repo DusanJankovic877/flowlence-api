@@ -109,11 +109,13 @@ class PostController extends Controller
     }
     public function edit($id)
     {
+        // return $image = Image::where('section_title_id',  12)->get();
         $post_title = Post::findOrFail($id);
         $section_titles = SectionTitle::where('post_id', $post_title['id'])->get();
         $s_titles = [];
         $images = [];
         $count = 0;
+        $i_count = 0;
         $t_count = 0;
         $textareas = [];
         foreach($section_titles as $section_title){
@@ -126,14 +128,17 @@ class PostController extends Controller
                     'post_id' => $section_title->post_id
                 ];
             }
-            $image = Image::where('section_title_id',  $section_title['id'])->first();
-            if($image !== null){
-                $images[] = [
-                    'formId' => $count,
-                    'id' => $image->id,
-                    'name' => $image->name,
-                    'section_title_id' => $image->section_title_id,
-                ];
+            $image = Image::where('section_title_id',  $section_title['id'])->get();
+            foreach($image as $image_item){
+                $i_count++;
+                if($image_item !== null){
+                    $images[] = [
+                        'formId' => $i_count,
+                        'id' => $image_item->id,
+                        'name' => $image_item->name,
+                        'section_title_id' => $image_item->section_title_id,
+                    ];
+                }
             }
             $textarea = Textarea::where('section_title_id',  $section_title['id'])->get();
             foreach($textarea as $textarea_item){
@@ -174,85 +179,107 @@ class PostController extends Controller
     public function update(Request $request)
     {
         //
+    //  return $request;
+        // return response()->json(['poruka' => $request['images_to_edit']]);
+        $images = [];
+        foreach($request['post']['images'] as $image){
         
-        
-        foreach($request['images_to_edit'] as $image_to_edit){
-            $image_to_replace = $image_to_edit['imageToReplaceId'] ? Image::findOrFail($image_to_edit['imageToReplaceId']) : null;
+            $image_to_replace = $image['oldName'] ? Image::where('name', $image['oldName'])->first() : null;
+            // // $images[] = $image_to_replace;
             $path = $image_to_replace ? storage_path('images/').$image_to_replace['name'] : null;
-            if($image_to_edit['imageToReplaceId'] === null && count($request['images_to_edit']) !== 0){
+            if($image['oldName'] === 'no old name'){       
                 Image::create([
-                    'name' => $image_to_edit['imageName'],
+                    'name' => $image['name'],
                     'path' => 'images/',
-                    'section_title_id' => $image_to_edit['sectionTitleId']
+                    'section_title_id' => $image['section_title_id']
                 ]);
-                // return response()->json(['saved' => $image_to_save]);
-            }else if(file_exists($path) && $image_to_edit['imageToReplaceId']){
+            }else if($image['oldName']){
                 unlink($path);
-                $image_to_replace->name = $image_to_edit['imageName'];
+                $image_to_replace->name = $image['name'];
+                $image_to_replace->section_title_id = $image['section_title_id'];
                 $image_to_replace->save();
             }
+            $images[] = $image['oldName'];
         }
-        $post_r =  $request['post'][0];
+        return $images;
+        // return response()->json(['poruka' => $images]);
+        // foreach($request['images_to_edit'] as $image_to_edit){
+        //     $image_to_replace = $image_to_edit['imageToReplaceId'] ? Image::findOrFail($image_to_edit['imageToReplaceId']) : null;
+        //     $path = $image_to_replace ? storage_path('images/').$image_to_replace['name'] : null;
+        //     if($image_to_edit['imageToReplaceId'] === null && count($request['images_to_edit']) !== 0){
+        //         Image::create([
+        //             'name' => $image_to_edit['imageName'],
+        //             'path' => 'images/',
+        //             'section_title_id' => $image_to_edit['sectionTitleId']
+        //         ]);
+        //         // return response()->json(['saved' => $image_to_save]);
+        //     }else if(file_exists($path) && $image_to_edit['imageToReplaceId']){
+        //         unlink($path);
+        //         $image_to_replace->name = $image_to_edit['imageName'];
+        //         $image_to_replace->save();
+        //     }
+        // }
+        // $post_r =  $request['post'][0];
         
-        $post = Post::findOrFail($post_r['id']);
-        $section_titles_r = $request['post']['section_titles'];
-            if($post->post_title !== $post_r['post_title']){
-                $post->post_title = $post_r['post_title'];
-                $post->save();
-                foreach($section_titles_r as $section_title_r){
-                    $section_title = SectionTitle::findOrFail($section_title_r['id']);
-                    if($section_title['title'] !== $section_title_r['title']){
-                        $section_title->title = $section_title_r['title'];
-                        $section_title->save();
+        // $post = Post::findOrFail($post_r['id']);
+        // $section_titles_r = $request['post']['section_titles'];
+        //     if($post->post_title !== $post_r['post_title']){
+        //         $post->post_title = $post_r['post_title'];
+        //         $post->save();
+        //         foreach($section_titles_r as $section_title_r){
+        //             $section_title = SectionTitle::findOrFail($section_title_r['id']);
+        //             if($section_title['title'] !== $section_title_r['title']){
+        //                 $section_title->title = $section_title_r['title'];
+        //                 $section_title->save();
 
-                        foreach($section_title_r['textareas'] as $textarea_r){
-                            $textarea = Textarea::findOrFail($textarea_r['id']);
-                            if($textarea_r['text'] !== $textarea['text']){
-                                $textarea['text'] = $textarea_r['text'];
-                            }
-                        }
+        //                 foreach($section_title_r['textareas'] as $textarea_r){
+        //                     $textarea = Textarea::findOrFail($textarea_r['id']);
+        //                     if($textarea_r['text'] !== $textarea['text']){
+        //                         $textarea['text'] = $textarea_r['text'];
+        //                     }
+        //                 }
                        
-                    }else {
-                        foreach($section_titles_r as $section_title_r){
-                            foreach($section_title_r['textareas'] as $textarea_r){
-                                $textarea = Textarea::findOrFail($textarea_r['id']);
-                                if($textarea_r['text'] !== $textarea['text']){
-                                    $textarea['text'] = $textarea_r['text'];
-                                }
-                            }
-                        }
-                    }
-                }
-            }else{
-                foreach($section_titles_r as $section_title_r){
-                   $section_title = SectionTitle::findOrFail($section_title_r['id']);
-                   if($section_title['title'] !== $section_title_r['title']){
-                       $section_title->title = $section_title_r['title'];
-                       $section_title->save();
+        //             }else {
+        //                 foreach($section_titles_r as $section_title_r){
+        //                     foreach($section_title_r['textareas'] as $textarea_r){
+        //                         $textarea = Textarea::findOrFail($textarea_r['id']);
+        //                         if($textarea_r['text'] !== $textarea['text']){
+        //                             $textarea['text'] = $textarea_r['text'];
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }else{
+        //         foreach($section_titles_r as $section_title_r){
+        //            $section_title = SectionTitle::findOrFail($section_title_r['id']);
+        //            if($section_title['title'] !== $section_title_r['title']){
+        //                $section_title->title = $section_title_r['title'];
+        //                $section_title->save();
 
-                       foreach($section_titles_r as $section_title_r){
-                        foreach($section_title_r['textareas'] as $textarea_r){
-                            $textarea = Textarea::findOrFail($textarea_r['id']);
-                            if($textarea_r['text'] !== $textarea['text']){
-                                $textarea['text'] = $textarea_r['text'];
-                            }
-                        }
-                    }
-                   }else {
-                        foreach($section_titles_r as $section_title_r){
-                            foreach($section_title_r['textareas'] as $textarea_r){
-                                $textarea = Textarea::findOrFail($textarea_r['id']);
-                                if($textarea_r['text'] !== $textarea['text']){
-                                    $textarea['text'] = $textarea_r['text'];
-                                    $textarea-> save();
-                                }
-                            }
-                        }
-                   }
-                }
+        //                foreach($section_titles_r as $section_title_r){
+        //                 foreach($section_title_r['textareas'] as $textarea_r){
+        //                     $textarea = Textarea::findOrFail($textarea_r['id']);
+        //                     if($textarea_r['text'] !== $textarea['text']){
+        //                         $textarea['text'] = $textarea_r['text'];
+        //                     }
+        //                 }
+        //             }
+        //            }else {
+        //                 foreach($section_titles_r as $section_title_r){
+        //                     foreach($section_title_r['textareas'] as $textarea_r){
+        //                         $textarea = Textarea::findOrFail($textarea_r['id']);
+        //                         if($textarea_r['text'] !== $textarea['text']){
+        //                             $textarea['text'] = $textarea_r['text'];
+        //                             $textarea-> save();
+        //                         }
+        //                     }
+        //                 }
+        //            }
+        //         }
 
-            }
-            return response()->json(['message' => "Uspešno sačuvane promene"]);
+        //     }
+        //     return response()->json(['message' => "Uspešno sačuvane promene"]);
     }
 
     /**
