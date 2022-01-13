@@ -30,7 +30,7 @@ class ImageController extends Controller
         // return $request;
         
         $this->validate($request,[
-            'images.*' => 'required|image|mimes:jpg,jpeg,png|max:20000',
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:20000',
         ],[
             'image' => 'Mora biti slika',
             'mimes' => 'Mora biti formata: jpg, jpeg, png'
