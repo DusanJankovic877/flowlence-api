@@ -16,9 +16,11 @@ class CreateSectionTitlesTable extends Migration
         Schema::create('section_titles', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('post_id')->constraint('posts')->onDelete('cascade');
+            $table->unsignedBigInteger('post_id')->nullable();
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->timestamps();
         });
+
     }
 
     /**

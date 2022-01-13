@@ -17,9 +17,16 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('path');
-            $table->foreignId('section_title_id')->constraint('section_titles')->onDelete('cascade');
+            $table->unsignedBigInteger('section_title_id')->nullable();
+            $table->foreign('section_title_id')->references('id')->on('section_titles')->onDelete('cascade');
             $table->timestamps();
         });
+        // Schema::table('proforms', function (Blueprint $table) {
+        //     $table->foreign('proform_id')
+        //           ->references('id')
+        //           ->on('proforms')
+        //           ->onDelete('cascade');            
+        // });
     }
 
     /**

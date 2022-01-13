@@ -14,4 +14,8 @@ class Post extends Model
     public function section_titles(){
        return $this->hasMany(SectionTitle::class);
     }
+    public static function boot() {
+        parent::boot();
+        
+    }
 }

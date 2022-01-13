@@ -186,7 +186,7 @@ class PostController extends Controller
         
             $image_to_replace = $image['oldName'] ? Image::where('name', $image['oldName'])->first() : null;
             // // $images[] = $image_to_replace;
-            $path = $image_to_replace ? storage_path('images/').$image_to_replace['name'] : null;
+            $path = $image_to_replace ? storage_path($image_to_replace->path).$image_to_replace['name'] : null;
             if($image['oldName'] === 'no old name'){       
                 Image::create([
                     'name' => $image['name'],
@@ -292,31 +292,19 @@ class PostController extends Controller
     {
         //
         $post = Post::findOrFail($id);
-        $section_titles = SectionTitle::where('post_id', $id)->get();
+        $section_titles = SectionTitle::where('post_id', $id)->with('images')->get();
         // $images = [];
-        
+        // return $section_titles;
         foreach($section_titles as $section_title){
             foreach($section_title->images as $image){
                 $path = storage_path('images/').$image->name;
-                // $images[] = $image->name;
                 if(file_exists($path)){
                     unlink($path);
                 }
-                $image_to_delete = Image::findOrFail($image->id);
-                $image_to_delete->delete();
             }
-            foreach($section_title->textareas as $textarea){
-                $textarea_to_delete = Textarea::findOrFail($textarea->id);
-                $textarea_to_delete->delete();
-            }
-            $section_title->delete();
+
         }
         $post->delete();
-    // }else if(file_exists($path) && $image_to_edit['imageToReplaceId']){
-    //     unlink($path);
-    //     $image_to_replace->name = $image_to_edit['imageName'];
-    //     $image_to_replace->save();
-    // }
         return response()->json(['message' => 'Usepšno ste obrisali post']);
     }
 }

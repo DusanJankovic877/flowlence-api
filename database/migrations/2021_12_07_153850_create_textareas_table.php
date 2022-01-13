@@ -16,7 +16,8 @@ class CreateTextareasTable extends Migration
         Schema::create('textareas', function (Blueprint $table) {
             $table->id();
             $table->text('text', 1000);
-            $table->foreignId('section_title_id')->constraint('section_titles')->onDelete('cascade');
+            $table->unsignedBigInteger('section_title_id')->nullable();
+            $table->foreign('section_title_id')->references('id')->on('section_titles')->onDelete('cascade');
             $table->timestamps();
         });
     }
