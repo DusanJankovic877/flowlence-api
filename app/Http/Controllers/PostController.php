@@ -164,6 +164,7 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
+        // return $request['post']['images'];
         //GOOD PART
         // return ['post_title' => $request['post']['post_title']['id'], 'section titles' => $request['post']['section_titles'], 'textareas' => $request['post']['textareas']];
         $post_title_to_update =  Post::findOrFail($request['post']['post_title']['id']);
@@ -174,52 +175,124 @@ class PostController extends Controller
         foreach($request['post']['section_titles'] as $section_title){
             $s_titles[] = $section_title;
             if($section_title['id'] === null){
-                SectionTitle::create([
+               
+               
+               $section_to_save = SectionTitle::create([
                     'title' => $section_title['title'],
                     'post_id' => $post_title_to_update['id']
-                ])->save();
+                ]);
+                $section_to_save->save();
+                //IMAGE
+                foreach($request['post']['images'] as $image){
+                    if($image['id'] === null){
+                        Image::create([
+                            'name' => $image['name'],
+                            'path' => 'images/',
+                            'section_title_id' => $section_to_save['id']
+                        ]);
+                    }
+                    elseif($image['oldName']){
+                        
+                        $image_to_replace = $image['oldName'] ? Image::where('name', $image['oldName'])->first() : null;
+                        $path = $image_to_replace ? storage_path($image_to_replace->path).$image_to_replace['name'] : null;
+                        if(file_exists($path)){
+                            unlink($path);
+                            $image_to_replace->name = $image['name'];
+                            $image_to_replace->section_title_id = $image['section_title_id'];
+                            $image_to_replace->save();
+                        }
+                    }
+                }
+                //TEXTAREA
+                foreach($request['post']['textareas'] as $textarea){
+                    if($textarea['id'] === null){
+                        Textarea::create([
+                            'text' => $textarea['text'],
+                            'section_title_id' => $section_to_save->id
+                        ])->save(); 
+                    }else{
+                        $textarea_to_update = Textarea::findOrFail($textarea['id']);
+                        $textarea_to_update->text = $textarea['text'];
+                        $textarea_to_update->section_title_id = $textarea['section_title_id'];
+                        $textarea_to_update->save();
+                    }
+                }
+             
             }else{
                 $section_title_to_update = SectionTitle::findOrfail($section_title['id']); 
                 if($section_title_to_update['title'] !== $section_title['title']){
                     $section_title_to_update->title = $section_title['title'];
                     $section_title_to_update->save();
                 }
-            }
-            foreach($request['post']['textareas'] as $textarea){
-                if($textarea['id'] === null){
-                    if($textarea['section_title_id'] === $section_title['formId']){
-                        $s_title_bind_to = SectionTitle::where('title', $section_title['title'])->first();
+                //IMAGE
+                foreach($request['post']['images'] as $image){
+                    if($image['id'] === null && $section_title_to_update->id === $image['section_title_id']){
+                        Image::create([
+                            'name' => $image['name'],
+                            'path' => 'images/',
+                            'section_title_id' => $image['section_title_id']
+                        ]);
+                    }elseif($image['id']){
+                        $image_to_update = Image::findOrFail($image['id']);
+                        $image_to_update->section_title_id = $image['section_title_id'];
+                        if($image['oldName'] !== null){
+                            $path = $image_to_update ? storage_path('images/').$image['oldName'] : null;
+                            if(file_exists($path)){
+                                unlink($path);
+                                $image_to_update->name = $image['name'];
+                            }
+                        }
+                        $image_to_update->save();
+
+                    }else{
+                        
+                        // $image_to_replace = $image['oldName'] ? Image::where('name', $image['oldName'])->first() : null;
+                        // $path = $image_to_replace ? storage_path('images/').$image_to_replace['name'] : null;
+                        // if(file_exists($path)){
+                        //     // return ['null' => $path];
+                        //     unlink($path);
+                        //     $image_to_replace->name = $image['name'];
+                        //     // $image_to_replace->section_title_id = $image['section_title_id'];
+                        //     $image_to_replace->save();
+                        // }
+                       
+                    }
+                }
+                //TEXTAREA
+                foreach($request['post']['textareas'] as $textarea ){
+                    if($textarea['id'] === null && $section_title_to_update->id === $textarea['section_title_id']){
                         Textarea::create([
                             'text' => $textarea['text'],
-                            'section_title_id' => $s_title_bind_to['id']
-                        ])->save();
-                    }
-                }else{
-                    $textarea_to_update = Textarea::findOrFail($textarea['id']);
-                    if($textarea_to_update->text !== $textarea['text']){
+                            'section_title_id' => $textarea['section_title_id']
+                        ])->save(); 
+                    }else{
+                        $textarea_to_update = Textarea::findOrFail($textarea['id']);
                         $textarea_to_update->text = $textarea['text'];
+                        $textarea_to_update->section_title_id = $textarea['section_title_id'];
                         $textarea_to_update->save();
                     }
                 }
+              
             }
+            // foreach($request['post']['images'] as $image){
+            //     $image_to_replace = $image['oldName'] ? Image::where('name', $image['oldName'])->first() : null;
+            //     $path = $image_to_replace ? storage_path($image_to_replace->path).$image_to_replace['name'] : null;
+            //     if($image['oldName'] === 'no old name'){  
+            //         return $section_title;     
+            //         Image::create([
+            //             'name' => $image['name'],
+            //             'path' => 'images/',
+            //             'section_title_id' => $image['section_title_id']
+            //         ]);
+            //     }else if($image['oldName']){
+            //         unlink($path);
+            //         $image_to_replace->name = $image['name'];
+            //         $image_to_replace->section_title_id = $image['section_title_id'];
+            //         $image_to_replace->save();
+            //     }
+            // }
         }
         
-        foreach($request['post']['images'] as $image){
-            $image_to_replace = $image['oldName'] ? Image::where('name', $image['oldName'])->first() : null;
-            $path = $image_to_replace ? storage_path($image_to_replace->path).$image_to_replace['name'] : null;
-            if($image['oldName'] === 'no old name'){       
-                Image::create([
-                    'name' => $image['name'],
-                    'path' => 'images/',
-                    'section_title_id' => $image['section_title_id']
-                ]);
-            }else if($image['oldName']){
-                unlink($path);
-                $image_to_replace->name = $image['name'];
-                $image_to_replace->section_title_id = $image['section_title_id'];
-                $image_to_replace->save();
-            }
-        }
         return ['message' => 'Promene na postu uspešno sačuvane'];
     }
 
