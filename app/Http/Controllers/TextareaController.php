@@ -57,8 +57,9 @@ class TextareaController extends Controller
      * @param  \App\Models\Textarea  $textarea
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Textarea $textarea)
+    public function destroy($id)
     {
-        //
+        $textarea = Textarea::findOrFail($id);
+        $textarea->delete();
     }
 }

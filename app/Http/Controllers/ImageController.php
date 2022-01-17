@@ -112,8 +112,15 @@ class ImageController extends Controller
      * @param  \App\Models\Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Image $image)
+    public function destroy($id)
     {
         //
+        $image = Image::findOrFail($id);
+        $path = storage_path($image->path).$image->name;
+        if(file_exists($path)){
+            unlink($path);
+            $image->delete();
+            return response()->json(['message' => 'Slika uspešno obrisana']);
+        }
     }
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriceListMailController;
 use App\Http\Controllers\PriceListFormController;
 use App\Http\Controllers\ReCaptchaController;
+use App\Http\Controllers\SectionTitleController;
+use App\Http\Controllers\TextareaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +34,9 @@ Route::post('/recaptcha/validate', [ ReCaptchaController::class , 'index']);
 Route::post('/save-post-image', [ ImageController::class , 'store']);
 Route::get('/get-image/{filename}', [ ImageController::class , 'show']);
 Route::post('/save-edited-images', [ ImageController::class , 'update']);
+Route::get('/delete-image/{id}', [ ImageController::class , 'destroy']);
+Route::get('/delete-section-title/{id}', [ SectionTitleController::class , 'destroy']);
+Route::get('/delete-textarea/{id}', [ TextareaController::class , 'destroy']);
 Route::post('/save-edited-post', [ PostController::class , 'update']);
 Route::get('/delete-post/{id}', [ PostController::class , 'destroy']);
 Route::get('/get-posts', [ PostController::class , 'index']);

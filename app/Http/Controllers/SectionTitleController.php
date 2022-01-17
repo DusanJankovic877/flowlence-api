@@ -57,8 +57,14 @@ class SectionTitleController extends Controller
      * @param  \App\Models\SectionTitle  $sectionTitle
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SectionTitle $sectionTitle)
-    {
-        //
+    public function destroy($id){
+        $section_title = SectionTitle::findOrFail($id);
+        if($section_title){
+            $section_title->delete();
+        }
+        return ['sectionTitle' => $section_title];
     }
+    
+    
+    
 }
