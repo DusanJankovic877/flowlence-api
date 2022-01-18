@@ -190,8 +190,9 @@ class PostController extends Controller
             $post_title_to_update->post_title = $request['post']['post_title']['post_title'];
             $post_title_to_update->save();
         }
+
         foreach($request['post']['section_titles'] as $section_title){
-            $s_titles[] = $section_title;
+
             if($section_title['id'] === null){
                
                
@@ -202,6 +203,7 @@ class PostController extends Controller
                 $section_to_save->save();
                 //IMAGE
                 foreach($request['post']['images'] as $image){
+                    
                     if($image['id'] === null){
                         Image::create([
                             'name' => $image['name'],
@@ -265,7 +267,7 @@ class PostController extends Controller
                     }
                 }
                 //TEXTAREA
-                $textareas = [];
+
                 foreach($request['post']['textareas'] as $textarea ){
                     if($textarea['id'] === null && $section_title_to_update->id === $textarea['section_title_id']){
                         Textarea::create([
@@ -281,8 +283,24 @@ class PostController extends Controller
                 }
             }
         }
+        // $solo_section_titles= SectionTitle::where('post_id',$post_title_to_update->id)->get();
         
-        return ['message' => 'Promene na postu uspešno sačuvane'];
+        $section_titles= SectionTitle::where('post_id',$post_title_to_update->id)->with('images', 'textareas')->get();
+        // $images = [];
+        // $textareas = [];
+        // foreach($section_titles as $section_title){
+        //     foreach($section_title->images as $image){
+        //         $images[] = $image;
+        //     }
+        //     foreach($section_title->textareas as $textarea){
+        //         $textareas[] = $textarea;
+        //     }
+        // }
+        return response()->json([
+                'message' => 'Promene na postu uspešno sačuvane', 
+                'post' => ['post_title' => $post_title_to_update, 'section_titles' => $section_titles]
+                          
+        ]);
     }
 
     /**
