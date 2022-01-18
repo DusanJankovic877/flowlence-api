@@ -164,6 +164,27 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
+        $validated = $this->validate($request,[
+            'post.post_title.post_title' => 'max:100|string|min:10',
+            // 'post.section_titles.*.id' => 'integer|max:100',
+            'post.section_titles.*.title' => 'required|string|max:100|min:10',
+            'post.textareas.*.id' => 'nullable|integer|max:140',
+            'post.textareas.*.text' => 'required|string|max:1000|min:10',
+            'post.textareas.*.section_title_id' => 'required|integer|max:140',
+            'post.images.*.name' => 'string|max:100',
+            'post.images.*.id' => 'integer|max:100',
+            // 'post.images.*.section_title_id' => 'integer|max:100',
+        ],[
+            'postTitle.max' => 'Maksimalno 100 karaktera',
+            'textareas.max' => 'Maksimalno 500 karaktera',
+            'textareas.min' => 'Minimalno 100 karaktera',
+            'min' => 'Minimalno 10 karaktera',
+            'integer' => 'Mora biti okrugao broj',
+            'string' => 'Mora biti u vidu slova',
+            'required' => 'Obavezno polje',
+
+            
+        ]);
         $post_title_to_update =  Post::findOrFail($request['post']['post_title']['id']);
         if($post_title_to_update->post_title !== $request['post']['post_title']['post_title']){
             $post_title_to_update->post_title = $request['post']['post_title']['post_title'];
