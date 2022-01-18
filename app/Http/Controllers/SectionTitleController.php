@@ -62,7 +62,6 @@ class SectionTitleController extends Controller
         if($section_title){
             $section_title->delete();
         }
-        return ['sectionTitle' => $section_title];
     }
     
     

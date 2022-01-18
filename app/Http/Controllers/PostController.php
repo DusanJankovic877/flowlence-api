@@ -37,7 +37,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
         $validated = $this->validate($request,[
             'postTitle' => 'required|max:100|string|min:10',
             'sectionTitles.*.sectionTId' => 'required|integer|max:10',
@@ -152,7 +151,7 @@ class PostController extends Controller
                 ];
             }
         }
-        return ['post_title' => $post_title, 'section_titles' => $s_titles, 'images' => $images, 'textareas' => $textareas];
+        return response()->json(['post_title' => $post_title, 'section_titles' => $s_titles, 'images' => $images, 'textareas' => $textareas]);
     }
 
     /**
@@ -283,19 +282,7 @@ class PostController extends Controller
                 }
             }
         }
-        // $solo_section_titles= SectionTitle::where('post_id',$post_title_to_update->id)->get();
-        
         $section_titles= SectionTitle::where('post_id',$post_title_to_update->id)->with('images', 'textareas')->get();
-        // $images = [];
-        // $textareas = [];
-        // foreach($section_titles as $section_title){
-        //     foreach($section_title->images as $image){
-        //         $images[] = $image;
-        //     }
-        //     foreach($section_title->textareas as $textarea){
-        //         $textareas[] = $textarea;
-        //     }
-        // }
         return response()->json([
                 'message' => 'Promene na postu uspešno sačuvane', 
                 'post' => ['post_title' => $post_title_to_update, 'section_titles' => $section_titles]
