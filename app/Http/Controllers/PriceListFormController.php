@@ -15,6 +15,7 @@ class PriceListFormController extends Controller
 
     public function index(Request $request)
     {
+        // return $request;
         //treba dodati validaciju podataka i ispisati greske
         $form_data = ['data' => Question::where('title', $request['businessTypeParam'])->with('question_options', 'question_type')->get()];
         return $form_data;
