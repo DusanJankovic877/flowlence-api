@@ -38,15 +38,15 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validate($request,[
-            'postTitle' => 'required|max:100|string|min:10',
+            'postTitle' => 'required|max:200|string|min:10',
             'sectionTitles.*.sectionTId' => 'required|integer|max:10',
-            'sectionTitles.*.title' => 'required|string|max:100|min:10',
+            'sectionTitles.*.title' => 'required|string|max:200|min:10',
             'textareas.*.textareaId' => 'required|integer|max:40',
             'textareas.*.text' => 'required|string|max:1000|min:10',
             'textareas.*.belongsTo' => 'required|integer|max:40',
             'images.*.name' => 'required|string|max:100',
-            'images.*.imageId' => 'required|integer|max:10',
-            'images.*.belongsTo' => 'required|integer|max:10',
+            'images.*.imageId' => 'required|integer|max:100',
+            'images.*.belongsTo' => 'required|integer|max:100',
         ],[
             'postTitle.max' => 'Maksimalno 100 karaktera',
             'textareas.max' => 'Maksimalno 500 karaktera',
@@ -164,14 +164,14 @@ class PostController extends Controller
     public function update(Request $request)
     {
         $validated = $this->validate($request,[
-            'post.post_title.post_title' => 'max:100|string|min:10',
+            'post.post_title.post_title' => 'max:200|string|min:10',
             // 'post.section_titles.*.id' => 'integer|max:100',
-            'post.section_titles.*.title' => 'required|string|max:100|min:10',
+            'post.section_titles.*.title' => 'required|string|max:200|min:10',
             'post.textareas.*.id' => 'nullable|integer|max:140',
             'post.textareas.*.text' => 'required|string|max:1000|min:10',
             'post.textareas.*.section_title_id' => 'required|integer|max:140',
             'post.images.*.name' => 'string|max:100',
-            'post.images.*.id' => 'integer|max:100',
+            'post.images.*.id' => 'max:100',
             // 'post.images.*.section_title_id' => 'integer|max:100',
         ],[
             'postTitle.max' => 'Maksimalno 100 karaktera',
