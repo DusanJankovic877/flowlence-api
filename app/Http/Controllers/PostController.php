@@ -7,8 +7,6 @@ use App\Models\Post;
 use App\Models\SectionTitle;
 use App\Models\Textarea;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -23,8 +21,15 @@ class PostController extends Controller
         $posts = Post::all();
         $sorted_posts= [];
         foreach($posts as $post){
-            $section_titles = SectionTitle::with('images')->where('post_id', $post['id'])->first();
-            $sorted_posts[] = ['post_title' => $post, 'section_titles' => $section_titles];
+            $section_titles = SectionTitle::where('post_id', $post['id'])->get();
+            $s_title =  $section_titles->first();
+            $image = Image::where('section_title_id', $s_title->id)->get();
+            $image = $image->first();
+            $sorted_posts[] = [
+                'post_title' => $post, 
+                'section_title' => $s_title, 
+                'image' => $image
+            ];
         }
         return response()->json($sorted_posts);
     }
