@@ -37,6 +37,7 @@ class ImageController extends Controller
         ]);
         $images = array();
         foreach ($request->file('images') as $image) {
+     
          $image_name = $image->getClientOriginalName();
          $image_name = time().'_'.$image_name;
          $image->move(storage_path('images'), $image_name);
